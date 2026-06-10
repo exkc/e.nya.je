@@ -317,7 +317,7 @@ async function launchDangbro() {
   if (response.timeout) {
     state.launchStarted = false;
 
-   if (whichbro.value===dang){
+   if (whichbro.value==="dang"){
     throw new Error('Dangbro launch timed out :/');
    } else {
     throw new Error('Jsbro launch timed out :/');
