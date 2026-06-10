@@ -256,6 +256,11 @@ button:hover {
   .terminal {
     max-height: 48vh;
   }
+
+  .dialog-btu{
+  min-width: 0;
+    flex: 1 1 100%;}
+
 }
 
 #whichbro,label[for="debugtoggle"] {

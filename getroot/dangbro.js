@@ -7,6 +7,7 @@ const tvIpEl = '127.0.0.1';
 const connectBtn = $('connectBtn');
 
 const CONNECT_TIMEOUT_MS = 7000;
+const BROWSER_HELP_URL = 'https://www.youtube.com/watch?v=YyiLBZmrLns';
 const CLIENT_KEY_PREFIX = 'webos-ssap-client-key:';
 const debugMode = new URLSearchParams(window.location.search).has('debug');
 const jstargetUrl = new URL('https://raws0kil.github.io/jsbro-autoroot/resources/jsbro/' + (debugMode ? '?debug' : ''), window.location.href).toString();
@@ -41,12 +42,14 @@ function setStatus(type, text) {
 function openModal(options) {
   $('modalTitle').textContent = options.title;
   $('modalBody').textContent = options.body;
-  $('modalPrimaryBtn').textContent = options.primaryLabel || 'retry';
-  $('modalDismissBtn').textContent = options.dismissLabel || 'close';
+  $('modalPrimaryBtn').textContent = options.primaryLabel || 'Retry';
+  $('modalDismissBtn').textContent = options.dismissLabel || 'Close';
+  $('modalHelpBtn').textContent = options.helpLabel || 'Browser Guide';
   $('modalDismissBtn').hidden = Boolean(options.hideDismiss);
+  $('modalHelpBtn').hidden = Boolean(options.hideHelp);
   $('modal').hidden = false;
   $('modalPrimaryBtn').onclick = () => options.onPrimary && options.onPrimary();
-  $('modalSecondaryBtn').onclick = () => options.onSecondary && options.onSecondary();
+  $('modalHelpBtn').onclick = () => options.onHelp && options.onHelp();
   $('modalDismissBtn').onclick = () => {
     if (options.onDismiss) options.onDismiss();
     $('modal').hidden = true;
@@ -350,18 +353,16 @@ bridge.addEventListener('error', () => {
   const elapsedMs = state.connectStartedAt ? Date.now() - state.connectStartedAt : 0;
   const isLikelyCertificateBlocked = elapsedMs > 0 && elapsedMs < 1500;
   const title = 'Connection Failed';
-  const body = 'Are you sure you are running it on the TV?';
+  const body = 'Open this page in tv\'s web browser.\nIf you need help then click the Browser Guide button.' ;
   setStatus('err', 'Connection failed');
   log('error', body);
   openModal({
     title,
     body,
-    primaryLabel: 'retry connect',
-    secondaryLabel: 'open cert',
-    dismissLabel: 'close',
-    hideSecondary: state.hadStoredClientKey || !isLikelyCertificateBlocked,
-    hideHelp: !isLikelyCertificateBlocked,
+    primaryLabel: 'Try reconnect',
+    dismissLabel: 'Close',
     onPrimary: () => startConnect(),
+    onHelp: () => window.open(BROWSER_HELP_URL, '_blank', 'noopener,noreferrer'),
   });
 });
 
@@ -437,9 +438,8 @@ async function startConnect() {
     openModal({
       title: 'Connection Failed',
       body: 'No successful WSS connection was established in time. This usually means the TV IP is wrong, the TV is offline, or port 3001 is not reachable on the network.',
-      primaryLabel: 'retry connect',
-      dismissLabel: 'close',
-      hideSecondary: true,
+      primaryLabel: 'Try reconnect',
+      dismissLabel: 'Close',
       hideHelp: true,
       onPrimary: () => startConnect()
     });
