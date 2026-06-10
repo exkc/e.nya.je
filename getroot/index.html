@@ -1,1 +1,69 @@
-<!DOCTYPE html><meta charset="UTF-8"><title>https://萌.网站/misc/js-bro/</title><meta http-equiv="refresh" content="0; url =https://xn--gr1a.xn--5tzm5g/misc/js-bro/" >
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>webOS Dualbro</title>
+  <link rel="stylesheet" href="./guided-terminal.css" />
+</head>
+<body>
+  <main class="shell">
+    <section id="fileProtocolNotice" class="panel" hidden>
+      <div class="panel-title">local file mode blocked</div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title panel-title-split">
+        <span>WebOS Dualbro</span>
+        <span class="statusline"><span id="statusDot" class="dot"></span><span id="statusText">idle</span></span>
+      </div>
+      <div class="toolbar">
+	       <label for="whichbro">Which bro you want to use :</label>
+	      <select id="whichbro">
+    <option value="js">Jsbro</option>
+    <option value="dang">Dangbro</option>
+    </select>
+      </div>
+      <div class="toolbar">
+
+<label for="debugtoggle">Debug Mode :</label>
+  <input type="checkbox" id="debugtoggle" name="debugtoggle">
+      </div>
+        <button class="toolbar" id="connectBtn">Root the TV :3</button>
+      <p class="subline">Dualbro is entry point for jsbro/dangbro that run in webos browser.</p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">Terminal</div>
+      <pre id="log" class="terminal"></pre>
+    </section>
+
+    <div class="footer-links">
+      <a class="footer-link" href="https://discord.gg/hXMHAgJC5R" target="_blank" rel="noopener noreferrer">OpenLGTV Discord ↗</a>
+      <a class="footer-link" href="https://github.com/exkc/jsbro-autoroot-exkc" target="_blank" rel="noopener noreferrer">Github source ↗</a>
+    </div>
+  </main>
+
+  <div id="modal" class="overlay" hidden>
+    <div class="dialog">
+      <div id="modalTitle" class="dialog-title">connecting</div>
+      <pre id="modalBody" class="dialog-body"></pre>
+      <div class="dialog-actions">
+        <button id="modalPrimaryBtn">retry</button>
+        <button id="modalDismissBtn">close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    if (window.location.protocol === 'file:') {
+      document.getElementById('fileProtocolNotice').hidden = false;
+    } else {
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.src = './dangbro.js';
+      document.body.appendChild(script);
+    }
+  </script>
+</body>
+</html>
