@@ -524,7 +524,7 @@ window.location=window.location.protocol+'//'+window.location.host+window.locati
 	debugtoggle.checked=debugMode;
   log('boot', 'Dualbro is ready.Time to root to the TV :3' + (debugMode ? ' [debug mode — log upload enabled]' : ''));
  openModal({
-	 title : "Welcome to Dualbro !!!",
+	 title : "Welcome to Dualbro - A entry point for jsbro/dangbro that run in webos browser !!!",
     body:`This page can root your tv in few different way.
 Let me explain to how to use this page.
 Firsty Which bro you want to use drop down menu let you pick between jsbro exploit and dangbro exploit.
