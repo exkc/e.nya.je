@@ -42,9 +42,9 @@ function setStatus(type, text) {
 function openModal(options) {
   $('modalTitle').textContent = options.title;
   $('modalBody').textContent = options.body;
-  $('modalPrimaryBtn').textContent = options.primaryLabel || 'Retry';
-  $('modalDismissBtn').textContent = options.dismissLabel || 'Close';
-  $('modalHelpBtn').textContent = options.helpLabel || 'Browser Guide';
+  $('modalPrimaryBtn').textContent = (options.primaryLabel || 'Retry') + " (1)";
+  $('modalDismissBtn').textContent = (options.dismissLabel || 'Close') + " (2)";
+  $('modalHelpBtn').textContent = (options.helpLabel || 'Browser Guide') + " (3)";
   $('modalDismissBtn').hidden = Boolean(options.hideDismiss);
   $('modalHelpBtn').hidden = Boolean(options.hideHelp);
   $('modal').hidden = false;
@@ -461,9 +461,44 @@ window.location=window.location.protocol+'//'+window.location.host+window.locati
 
 });
 
+// This part is copyed from rootmy.tv
+// so this part is under MIT license just like rootmy.tv
+   document.addEventListener("keydown", function(event) {
+	   if (modal.hidden){
+      if (event.keyCode === 52) {
+	      // keypad 6
+	      whichbro.value="js"
+      } else if (event.keyCode === 53) {
+	      // keypad 5
+	      // Just like rootmy.tv :3
+	      startConnect();
+      } else if (event.keyCode === 54) {
+	      // keypad 4
+	      whichbro.value="dang"
+      } else if (event.keyCode === 56) {
+	      // keypay 8
+	      debugtoggle.click();
+      } 
+		   
+	   } else {
+ if (event.keyCode === 49) {
+	 //keypad 1
+	 modalPrimaryBtn.click();
+      } else if (event.keyCode === 50) {
+	 //keypad 2
+	      modalDismissBtn.click();
+      } else if (event.keyCode === 51) {
+	 //keypad 3
+	      modalHelpBtn.click();
+      } 
+
+	   }
+
+
+   });
+// this part end.
 
 (() => {
-
   setStatus('', 'Idle');
 	debugtoggle.checked=debugMode;
   log('boot', 'Dualbro is ready.Time to root to the TV :3' + (debugMode ? ' [debug mode — log upload enabled]' : ''));
