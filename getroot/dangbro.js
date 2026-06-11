@@ -368,7 +368,7 @@ bridge.addEventListener('error', () => {
 
 bridge.addEventListener('ssap-message', async (event) => {
   const msg = event.detail;
-
+  const launchmsg =  "Starting automatic dangbei-overlay launch to ";
   if (msg.type === 'response' && msg.payload?.pairingType === 'PROMPT') {
     state.waitingForPairing = true;
     setStatus('warn', 'Confirm pairing on TV');
@@ -388,11 +388,12 @@ bridge.addEventListener('ssap-message', async (event) => {
   await warnIfDangbeiOverlayMissing();
  if (whichbro.value==="dang"){
     targetUrl=dangtargetUrl;
+  log('launch', launchmsg+"dangbro ("+targetUrl+")");
    } else {
     targetUrl=jstargetUrl;
+  log('launch', launchmsg+"jsbro ("+targetUrl+")");
    }
 
-  log('launch', `Starting automatic dangbei-overlay launch to ${targetUrl}`);
 
   try {
     await launchDangbro();
