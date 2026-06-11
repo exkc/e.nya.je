@@ -539,8 +539,8 @@ then that mean your TV block the app.
 However set region to other in the setting may help in that case.
 
 tinybrowser : I dont think this app would get block in some region.
-However i only found it in webos 25 so it may only work in webos24
-Maybe it exist in webos 24 who know
+However i only found it in webos 25.
+Maybe it exist in webos 24. who know?
 I only know it dont exist in webos 23.
 
 Press 2 or close to close this msg.
