@@ -64,8 +64,8 @@ function showPairingDialog() {
   openModal({
     title: 'Approve Pairing On TV',
     body: 'The TV is asking for confirmation. Accept the pairing prompt on the TV, then this page should continue automatically.',
-    primaryLabel: 'retry connect',
-    dismissLabel: 'keep waiting',
+    primaryLabel: 'Try reconnect',
+    dismissLabel: 'Keep waiting',
     hideSecondary: true,
     hideHelp: true,
     onPrimary: () => startConnect(),
