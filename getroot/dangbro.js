@@ -269,18 +269,18 @@ class WebOsSsapBridge extends EventTarget {
 const bridge = new WebOsSsapBridge();
 const BROADCAST_CONFIG_NAMES = ['tv.nyx.tvBroadcastSystem', 'tv.model.sysType'];
 
-async function warnIfDangbeiOverlayMissing() {
+async function warnIfDangbeiOverlayMissing(appid,appname) {
   let response;
   try {
     response = await bridge.request('ssap://com.webos.applicationManager/listApps', {}, 5000);
   } catch (error) {
-    log('warn', 'Could not verify whether dangbei-overlay is installed before launch.');
+    log('warn', 'Could not verify whether '+appname+' is installed before launch.');
     debugLog('warn-detail', error instanceof Error ? error.message : String(error));
     return;
   }
 
   if (response.timeout) {
-    log('warn', 'listApps timed out. Could not verify whether dangbei-overlay is installed.');
+    log('warn', 'listApps timed out. Could not verify whether '+appname+' is installed.');
     return;
   }
 
@@ -290,32 +290,20 @@ async function warnIfDangbeiOverlayMissing() {
   }
 
   const apps = Array.isArray(response.payload?.apps) ? response.payload.apps : [];
-  const hasDangbeiOverlay = apps.some((app) => app && app.id === 'com.webos.app.dangbei-overlay');
+  let hasDangbeiOverlay = apps.some((app) => app && app.id === appid );
   if (!hasDangbeiOverlay) {
-    log('warn', 'com.webos.app.dangbei-overlay was not found in listApps. If nothing happens on the TV it is likely not vulnerable.');
+    log('warn', appid+' was not found in listApps. If nothing happens on the TV it is likely not vulnerable.');
+    log('warn', 'You can try use another app if you want. (Try picking different app in Which app you want to use)');
+
   } else {
-    log('success', 'Confirmed existence of dangbei-overlay app.');
+    log('success', 'Confirmed existence of '+appname+' app.');
   }
 }
 
-async function launchDangbro() {
+async function launchDangbro(payload) {
 
    if (state.launchStarted) return;
   state.launchStarted = true;
-
-  const payload = {
-    id: 'com.webos.app.dangbei-overlay',
-    params: {
-      source: 'ssap-dangbro',
-      target: targetUrl
-    }
-  };
-
-  debugLog('request', {
-    uri: 'ssap://system.launcher/launch',
-    payload
-  });
-
   const response = await bridge.request('ssap://system.launcher/launch', payload);
   if (response.timeout) {
     state.launchStarted = false;
@@ -368,7 +356,7 @@ bridge.addEventListener('error', () => {
 
 bridge.addEventListener('ssap-message', async (event) => {
   const msg = event.detail;
-  const launchmsg =  "Starting automatic dangbei-overlay launch to ";
+  const launchmsg =  "Launching selected app to ";
   if (msg.type === 'response' && msg.payload?.pairingType === 'PROMPT') {
     state.waitingForPairing = true;
     setStatus('warn', 'Confirm pairing on TV');
@@ -385,7 +373,16 @@ bridge.addEventListener('ssap-message', async (event) => {
   log('connect', state.hadStoredClientKey
     ? 'Connected. Existing client key accepted.'
     : 'Connected. Pairing completed and the TV is ready.');
-  await warnIfDangbeiOverlayMissing();
+	if (whichapp.value==="dang") {
+	let appid="com.webos.app.dangbei-overlay";
+	let appname="dangbei-overlay";	
+  await warnIfDangbeiOverlayMissing("com.webos.app.dangbei-overlay","dangbei-overlay");
+	} else {
+	let appid="com.webos.app.tinybrowser";
+	let appname="tinybrowser";
+  await warnIfDangbeiOverlayMissing("com.webos.app.tinybrowser","tinybrowser");
+	}
+
  if (whichbro.value==="dang"){
     targetUrl=dangtargetUrl;
   log('launch', launchmsg+"dangbro ("+targetUrl+")");
@@ -395,8 +392,24 @@ bridge.addEventListener('ssap-message', async (event) => {
    }
 
 
+
   try {
-    await launchDangbro();
+if (whichapp.value==="dang") {
+
+    await launchDangbro( {
+    id: 'com.webos.app.dangbei-overlay',
+    params: {
+      source: 'ssap-dangbro',
+      target: targetUrl
+    }});
+	} else {
+ await launchDangbro( {
+    id: 'com.webos.app.tinybrowser',
+    params: {
+      source: 'ssap-dangbro',
+      contentTarget: targetUrl
+    }});
+  }
   } catch (error) {
     state.launchStarted = false;
     setStatus('err', 'Launch failed');
@@ -464,20 +477,27 @@ window.location=window.location.protocol+'//'+window.location.host+window.locati
 // This part is copyed from rootmy.tv
 // so this part is under MIT license just like rootmy.tv
    document.addEventListener("keydown", function(event) {
+
 	   if (modal.hidden){
       if (event.keyCode === 52) {
-	      // keypad 6
-	      whichbro.value="js"
+	      // keypad 4
+	      whichbro.value="js";
       } else if (event.keyCode === 53) {
 	      // keypad 5
 	      // Just like rootmy.tv :3
 	      startConnect();
       } else if (event.keyCode === 54) {
-	      // keypad 4
-	      whichbro.value="dang"
+	      // keypad 6
+	      whichbro.value="dang";
+      } else if (event.keyCode === 55) {
+	      // keypad 7
+	      whichapp.value="dang";
       } else if (event.keyCode === 56) {
 	      // keypay 8
 	      debugtoggle.click();
+      } else if (event.keyCode === 57) {
+	      // keypay 9
+	      whichapp.value="tiny";
       } 
 		   
 	   } else {

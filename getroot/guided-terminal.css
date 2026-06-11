@@ -263,6 +263,6 @@ button:hover {
 
 }
 
-#whichbro,label[for="debugtoggle"] {
+#whichbro,#whichapp,label[for="debugtoggle"] {
   flex: 1 1 320px;
 }
