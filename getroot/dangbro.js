@@ -355,7 +355,7 @@ bridge.addEventListener('error', () => {
   const title = 'Connection Failed';
   const body = 'Open this page in tv\'s web browser.\nIf you need help then click the Browser Guide button.' ;
   setStatus('err', 'Connection failed');
-  log('error', body);
+  log('error', "Conection Failed,cant reach the TV :/");
   openModal({
     title,
     body,
