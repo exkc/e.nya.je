@@ -529,7 +529,7 @@ window.location=window.location.protocol+'//'+window.location.host+window.locati
 Let me explain to how to use this page.
 Firsty Which bro you want to use drop down menu let you pick between jsbro exploit and dangbro exploit.
 jsbro use jsserver to grain root therefore it should work in all region.
-dangbro in other hand use dvb related stuff to gain root therefore it should work onlyi in some region's tv but not all.
+dangbro in other hand use dvb related stuff to gain root therefore it should work only in some region's tv but not all.
 Second Which app you want to use drop down menu let you pick which app to use for launching the exploit.
 In that drop down there are two options :
 
