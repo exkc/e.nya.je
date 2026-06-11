@@ -45,6 +45,7 @@ function openModal(options) {
   $('modalPrimaryBtn').textContent = (options.primaryLabel || 'Retry') + " (1)";
   $('modalDismissBtn').textContent = (options.dismissLabel || 'Close') + " (2)";
   $('modalHelpBtn').textContent = (options.helpLabel || 'Browser Guide') + " (3)";
+  $('modalPrimaryBtn').hidden = Boolean(options.hidePrimary);
   $('modalDismissBtn').hidden = Boolean(options.hideDismiss);
   $('modalHelpBtn').hidden = Boolean(options.hideHelp);
   $('modal').hidden = false;
@@ -522,4 +523,30 @@ window.location=window.location.protocol+'//'+window.location.host+window.locati
   setStatus('', 'Idle');
 	debugtoggle.checked=debugMode;
   log('boot', 'Dualbro is ready.Time to root to the TV :3' + (debugMode ? ' [debug mode — log upload enabled]' : ''));
+ openModal({
+	 title : "Welcome to Dualbro !!!",
+    body:`This page can root your tv in few different way.
+Let me explain to how to use this page.
+Firsty Which bro you want to use drop down menu let you pick between jsbro exploit and dangbro exploit.
+jsbro use jsserver to grain root therefore it should work in all region.
+dangbro in other hand use dvb related stuff to gain root therefore it should work onlyi in some region's tv but not all.
+Second Which app you want to use drop down menu let you pick which app to use for launching the exploit.
+In that drop down there are two options :
+
+dangbei-overlay : That app is only launchable in some region's tv but not all region's TV.
+If you tried that and end up see "If you set LG Service Country and Menu Language..."
+then that mean your TV block the app.
+However set region to other in the setting may help in that case.
+
+tinybrowser : I dont think this app would get block in some region.
+However i only found it in webos 25 so it may only work in webos24
+Maybe it exist in webos 24 who know
+I only know it dont exist in webos 23.
+
+Press 2 or close to close this msg.
+	 `,
+    hidePrimary:true,
+    hideHelp:true,
+    dismissLabel: 'Close',
+  });
 })();
