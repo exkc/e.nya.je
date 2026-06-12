@@ -305,6 +305,10 @@ async function launchDangbro(payload) {
 
    if (state.launchStarted) return;
   state.launchStarted = true;
+  debugLog('request', {
+    uri: 'ssap://system.launcher/launch',
+    payload,
+  });
   const response = await bridge.request('ssap://system.launcher/launch', payload);
   if (response.timeout) {
     state.launchStarted = false;
