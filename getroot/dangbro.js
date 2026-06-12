@@ -370,6 +370,7 @@ bridge.addEventListener('ssap-message', async (event) => {
   log('connect', state.hadStoredClientKey
     ? 'Connected. Existing client key accepted.'
     : 'Connected. Pairing completed and the TV is ready.');
+	await warnIfDangbeiOverlayMissing();
   log('launch', "Starting automatic "+appname+" launch to "+broname+" ("+targetUrl+")");
  
 
