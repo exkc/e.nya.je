@@ -445,10 +445,10 @@ if (whichapp.value==="dang") {
     if (state.waitingForPairing || bridge.registered || !state.pending) return;
     state.pending = false;
     setStatus('err', 'Connection failed');
-    log('error', 'TV did not answer in time. This usually points to a wrong IP or a general network reachability problem.');
+    log('error', 'TV did not answer in time.Maybe SSAP is blocked in localhost. :/');
     openModal({
       title: 'Connection Failed',
-      body: 'No successful WSS connection was established in time. This usually means the TV IP is wrong, the TV is offline, or port 3001 is not reachable on the network.',
+      body: 'TV did not answer in time.Maybe SSAP is blocked in localhost. :/',
       primaryLabel: 'Try reconnect',
       dismissLabel: 'Close',
       hideHelp: true,
