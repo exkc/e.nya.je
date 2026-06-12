@@ -12,7 +12,7 @@ const CLIENT_KEY_PREFIX = 'webos-ssap-client-key:';
 const debugMode = new URLSearchParams(window.location.search).has('debug');
 const jstargetUrl = new URL('https://raws0kil.github.io/jsbro-autoroot/resources/jsbro/' + (debugMode ? '?debug' : ''), window.location.href).toString();
 const dangtargetUrl = new URL('https://azoffshowy.github.io/dangbro/resources/dangbro/' + (debugMode ? '?debug' : ''), window.location.href).toString();
-let targetUrl="";
+let targetUrl,broname, lunchpayload,appid,appname;
 
 const state = {
   attempt: 0,
@@ -269,7 +269,7 @@ class WebOsSsapBridge extends EventTarget {
 
 const bridge = new WebOsSsapBridge();
 
-async function warnIfDangbeiOverlayMissing(appid,appname) {
+async function warnIfDangbeiOverlayMissing() {
   let response;
   try {
     response = await bridge.request('ssap://com.webos.applicationManager/listApps', {}, 5000);
@@ -300,24 +300,18 @@ async function warnIfDangbeiOverlayMissing(appid,appname) {
   }
 }
 
-async function launchDangbro(payload) {
+async function launchDangbro() {
 
    if (state.launchStarted) return;
   state.launchStarted = true;
   debugLog('request', {
     uri: 'ssap://system.launcher/launch',
-    payload,
+    lunchpayload,
   });
-  const response = await bridge.request('ssap://system.launcher/launch', payload);
+  const response = await bridge.request('ssap://system.launcher/launch', lunchpayload);
   if (response.timeout) {
     state.launchStarted = false;
-
-   if (whichbro.value==="dang"){
-    throw new Error('Dangbro launch timed out :/');
-   } else {
-    throw new Error('Jsbro launch timed out :/');
-   }
-
+    throw new Error(broname+' launch timed out :/');
   }
 
   debugLog('response', response.payload || response);
@@ -360,7 +354,6 @@ bridge.addEventListener('error', () => {
 
 bridge.addEventListener('ssap-message', async (event) => {
   const msg = event.detail;
-  const launchmsg =  "Launching selected app to ";
   if (msg.type === 'response' && msg.payload?.pairingType === 'PROMPT') {
     state.waitingForPairing = true;
     setStatus('warn', 'Confirm pairing on TV');
@@ -377,40 +370,13 @@ bridge.addEventListener('ssap-message', async (event) => {
   log('connect', state.hadStoredClientKey
     ? 'Connected. Existing client key accepted.'
     : 'Connected. Pairing completed and the TV is ready.');
-	if (whichapp.value==="dang") {
-  await warnIfDangbeiOverlayMissing("com.webos.app.dangbei-overlay","dangbei-overlay");
-	} else {
-  await warnIfDangbeiOverlayMissing("com.webos.app.tinybrowser","tinybrowser");
-	}
-
- if (whichbro.value==="dang"){
-    targetUrl=dangtargetUrl;
-  log('launch', launchmsg+"dangbro ("+targetUrl+")");
-   } else {
-    targetUrl=jstargetUrl;
-  log('launch', launchmsg+"jsbro ("+targetUrl+")");
-   }
-
+  log('launch', "Starting automatic "+appname+" launch to "+broname+" ("+targetUrl+")");
+ 
 
 
   try {
-if (whichapp.value==="dang") {
-
-    await launchDangbro( {
-    id: 'com.webos.app.dangbei-overlay',
-    params: {
-      source: 'ssap-dangbro',
-      target: targetUrl
-    }});
-	} else {
- await launchDangbro( {
-    id: 'com.webos.app.tinybrowser',
-    params: {
-      source: 'ssap-dangbro',
-      contentTarget: targetUrl
-    }});
-  }
-  } catch (error) {
+ await launchDangbro();
+} catch (error) {
     state.launchStarted = false;
     setStatus('err', 'Launch failed');
     log('error', error instanceof Error ? error.message : String(error));
@@ -426,8 +392,38 @@ async function startConnect() {
   state.hadStoredClientKey = Boolean(localStorage.getItem(CLIENT_KEY_PREFIX + ip));
   state.connectStartedAt = Date.now();
   state.launchStarted = false;
+  
+   if (whichbro.value==="dang"){
+    broname="Dangbro";
+    targetUrl=dangtargetUrl;
+   } else {
+    broname="Jsbro";
+    targetUrl=jstargetUrl;
+   }
 
-  hideModal();
+if (whichapp.value==="dang") {
+
+  appid="com.webos.app.dangbei-overlay";
+	appname="dangbei-overlay";
+
+    lunchpayload={
+    id: 'com.webos.app.dangbei-overlay',
+    params: {
+      source: 'ssap-dangbro',
+      target: targetUrl
+    }};
+	} else {
+		appid="com.webos.app.tinybrowser"
+                 
+		appname="tinybrowser";
+ lunchpayload={
+    id: 'com.webos.app.tinybrowser',
+    params: {
+      source: 'ssap-dangbro',
+      contentTarget: targetUrl
+    }};
+  }
+    hideModal();
   bridge.disconnect();
   setStatus('warn', 'Connecting …');
   log('connect', `Trying to reach TV at ${ip} over ws:// on port 3000.`);
