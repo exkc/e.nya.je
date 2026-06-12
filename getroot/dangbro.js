@@ -268,7 +268,6 @@ class WebOsSsapBridge extends EventTarget {
 }
 
 const bridge = new WebOsSsapBridge();
-const BROADCAST_CONFIG_NAMES = ['tv.nyx.tvBroadcastSystem', 'tv.model.sysType'];
 
 async function warnIfDangbeiOverlayMissing(appid,appname) {
   let response;
@@ -379,12 +378,8 @@ bridge.addEventListener('ssap-message', async (event) => {
     ? 'Connected. Existing client key accepted.'
     : 'Connected. Pairing completed and the TV is ready.');
 	if (whichapp.value==="dang") {
-	let appid="com.webos.app.dangbei-overlay";
-	let appname="dangbei-overlay";	
   await warnIfDangbeiOverlayMissing("com.webos.app.dangbei-overlay","dangbei-overlay");
 	} else {
-	let appid="com.webos.app.tinybrowser";
-	let appname="tinybrowser";
   await warnIfDangbeiOverlayMissing("com.webos.app.tinybrowser","tinybrowser");
 	}
 
