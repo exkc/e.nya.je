@@ -542,7 +542,7 @@ However i only found it in webos 25.
 Maybe it exist in webos 24. who know?
 I only know it dont exist in webos 23.
 
-Press 2 or close to close this continue.
+Press 2 or close to continue this.
 	 `,
     hidePrimary:true,
     hideHelp:true,
