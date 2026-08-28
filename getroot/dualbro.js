@@ -41,9 +41,9 @@ function setStatus(type, text) {
 function openModal(options) {
   $('modalTitle').textContent = options.title;
   $('modalBody').textContent = options.body;
-  $('modalPrimaryBtn').textContent = (options.primaryLabel || 'Retry') + " (1)";
-  $('modalDismissBtn').textContent = (options.dismissLabel || 'Close') + " (2)";
-  $('modalHelpBtn').textContent = (options.helpLabel || 'Browser Guide') + " (3)";
+  $('modalPrimaryBtn').textContent = (options.primaryLabel || 'Retry');
+  $('modalDismissBtn').textContent = (options.dismissLabel || 'Close');
+  $('modalHelpBtn').textContent = (options.helpLabel || 'Browser Guide');
   $('modalPrimaryBtn').hidden = Boolean(options.hidePrimary);
   $('modalDismissBtn').hidden = Boolean(options.hideDismiss);
   $('modalHelpBtn').hidden = Boolean(options.hideHelp);
@@ -531,35 +531,7 @@ window.location=window.location.protocol+'//'+window.location.host+window.locati
 
    });
 
-   document.addEventListener("keydown", function(event) {
-
-	   if (modal.hidden){
-      if (event.keyCode === 52) {
-	      // keypad 4
-	      webosverion.focus();
-      } else if (event.keyCode === 53) {
-	      // keypad 5
-	      // Just like rootmy.tv :3
-	      startConnect();
-      } 
-		   
-	   } else {
- if (event.keyCode === 49) {
-	 //keypad 1
-	 modalPrimaryBtn.click();
-      } else if (event.keyCode === 50) {
-	 //keypad 2
-	      modalDismissBtn.click();
-      } else if (event.keyCode === 51) {
-	 //keypad 3
-	      modalHelpBtn.click();
-      } 
-
-	   }
-
-
-   });
-
+  
 (() => {
   setStatus('', 'Idle');
 	debugtoggle.checked=debugMode;
