@@ -324,7 +324,7 @@ whichhhh="dang";
     broname="Jsbro";
     targetUrl=jstargetUrl;
    } else {
-    broname="wtf";
+    broname="WTFBro";
     targetUrl=wtftargetUrl;
 
    }
