@@ -83,7 +83,7 @@ textarea {
   margin: 12px;
 } 
 
-
+.useless{display:none}
 
 input,
 button,
@@ -170,7 +170,9 @@ button:hover {
   background: var(--err);
   box-shadow: 0 0 10px rgba(255, 122, 122, 0.7);
 }
-
+#webosverion {
+    width: 100%;
+}
 .terminal {
   margin: 0;
   padding: 12px;
@@ -263,6 +265,6 @@ button:hover {
 
 }
 
-#whichbro,#whichapp,label[for="debugtoggle"] {
+#whichbro,#whichapp,label[for="debugtoggle"],#whichapp,label[for="advtoggle"],#webosverion,#tvip,label[for="ssltoggle"] {
   flex: 1 1 320px;
 }

@@ -17,9 +17,18 @@
         <span>WebOS Dualbro</span>
         <span class="statusline"><span id="statusDot" class="dot"></span><span id="statusText">idle</span></span>
       </div>
+    <div class="toolbar"> 
+	    <label for="webosverion">WebOS Version :</label>
+  <input type="number" id="webosverion" name="webosverion"> </div>
+    <div class="toolbar"> 
+	    <label for="advtoggle">Advanced Mode :</label>
+  <input type="checkbox" id="advtoggle" name="advtoggle"> </div>
+      <details id="advtogglede">
+	      <summary class="useless"></summary>
       <div class="toolbar">
 	       <label for="whichbro">Which bro you want to use :</label>
 	      <select id="whichbro">
+    <option value="wtf">WTFBro</option>
     <option value="js">Jsbro</option>
     <option value="dang">Dangbro</option>
     </select>
@@ -28,9 +37,19 @@
 <div class="toolbar">
 	       <label for="whichapp">Which app you want to use :</label>
 	      <select id="whichapp">
+    <option value="auto">Autodetect (based on version)</option>
     <option value="dang">dangbei-overlay</option>
     <option value="tiny">tinybrowser</option>
+    <option value="voiceweb">voiceweb</option>
     </select>
+      </div>
+ <div class="toolbar"> 
+	    <label for="tvip">TV IP :</label>
+  <input value="127.0.0.1" type="text" id="tvip" name="tvip"> </div>
+ <div class="toolbar">
+
+<label for="ssltoggle">SSL :</label>
+  <input type="checkbox" id="ssltoggle" name="ssltoggle">
       </div>
 
       <div class="toolbar">
@@ -38,6 +57,7 @@
 <label for="debugtoggle">Debug Mode :</label>
   <input type="checkbox" id="debugtoggle" name="debugtoggle">
       </div>
+</details> 
         <button class="toolbar" id="connectBtn">Root the TV :3</button>
       <p class="subline">Dualbro - A entry point for jsbro/dangbro that run in webos browser.</p>
       <p class="subline">Dualbro support numpad keybind as well.</p>
@@ -45,12 +65,8 @@
   <li>Dialog button</li>
   <li>Dialog button</li>
   <li>Dialog button</li>
-  <li>Select "Jsbro" in "Which bro you want to use"</li>
+  <li>Focus on the WebOS Version Input Box</li>
   <li>Root the TV :3</li>
-  <li>Select "Dangbro" in "Which bro you want to use"</li>
-  <li>Select "dangbei-overlay" in "Which app you want to use"</li>
-  <li>Debug Mode</li>
-  <li>Select "tinybrowser" in "Which app you want to use" </option></li>
 </ol>
     </section>
 

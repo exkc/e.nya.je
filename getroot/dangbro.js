@@ -3,15 +3,14 @@ const $ = (id) => document.getElementById(id);
 const logEl = $('log');
 const statusDot = $('statusDot');
 const statusText = $('statusText');
-const tvIpEl = '127.0.0.1';
 const connectBtn = $('connectBtn');
 
 const CONNECT_TIMEOUT_MS = 7000;
-const BROWSER_HELP_URL = 'https://www.youtube.com/watch?v=YyiLBZmrLns';
 const CLIENT_KEY_PREFIX = 'webos-ssap-client-key:';
 const debugMode = new URLSearchParams(window.location.search).has('debug');
 const jstargetUrl = new URL('https://raws0kil.github.io/jsbro-autoroot/resources/jsbro/' + (debugMode ? '?debug' : ''), window.location.href).toString();
 const dangtargetUrl = new URL('https://azoffshowy.github.io/dangbro/resources/dangbro/' + (debugMode ? '?debug' : ''), window.location.href).toString();
+const wtftargetUrl = new URL('https://e.nya.je/getroot/wtfbro' + (debugMode ? '?debug' : ''), window.location.href).toString();
 let targetUrl,broname, lunchpayload,appid,appname;
 
 const state = {
@@ -183,12 +182,17 @@ class WebOsSsapBridge extends EventTarget {
     });
   }
 
-  async connect(ip) {
+  async connect(ip,ssl) {
     this.ip = ip.trim();
     this.connected = false;
     this.registered = false;
     await this.ensureProxy();
-    this.proxy.send({ type: 'connect', url: `ws://${this.ip}:${this.port}` });
+    if (ssl){
+    this.proxy.send({ type: 'connect', url: `wss://${this.ip}:3001` });
+    } else {
+
+    this.proxy.send({ type: 'connect', url: `ws://${this.ip}:3000` });
+    }
   }
 
   disconnect() {
@@ -216,7 +220,7 @@ class WebOsSsapBridge extends EventTarget {
           manifestVersion: 1,
           appVersion: '1.0',
           signed: {
-            appId: 'com.example.ssap.dangbro',
+            appId: 'moe.exkc.dualbro',
             created: '2026-03-30',
             permissions: [
               'TEST_SECURE',
@@ -244,7 +248,7 @@ class WebOsSsapBridge extends EventTarget {
             'READ_COUNTRY_INFO',
             'WRITE_NOTIFICATION_TOAST'
           ],
-          signatures: [{ signatureVersion: 1, signature: 'dangbro-local-demo' }]
+          signatures: [{ signatureVersion: 1, signature: 'QwQ' }]
         }
       }
     };
@@ -300,6 +304,65 @@ async function warnIfDangbeiOverlayMissing() {
   }
 }
 
+async function whattouse() {
+let whichhhh;
+if (whichapp.value==="auto") {
+if ( webosverion.value ==26 || webosverion.value==11){
+whichhhh="voiceweb";
+} else if ( webosverion.value==25 || webosverion.value==10) {
+whichhhh="tiny";
+} else {
+whichhhh="dang";
+}
+} else {
+	whichhhh=whichapp.value;
+}
+ if (whichbro.value==="dang"){
+    broname="Dangbro";
+    targetUrl=dangtargetUrl;
+   } else if (whichbro.value==="js") {
+    broname="Jsbro";
+    targetUrl=jstargetUrl;
+   } else {
+    broname="wtf";
+    targetUrl=wtftargetUrl;
+
+   }
+
+if (whichhhh==="dang") {
+
+  appid="com.webos.app.dangbei-overlay";
+	appname="dangbei-overlay";
+
+    lunchpayload={
+    id: 'com.webos.app.dangbei-overlay',
+    params: {
+      source: 'dualbro',
+      target: targetUrl
+    }};
+	} else if (whichhhh==="tiny"){
+		appid="com.webos.app.tinybrowser"
+                 
+		appname="tinybrowser";
+ lunchpayload={
+    id: 'com.webos.app.tinybrowser',
+    params: {
+      source: 'dualbro',
+      contentTarget: targetUrl
+    }};
+	} else if (whichhhh==="voiceweb"){
+		appid="com.webos.app.voiceweb";
+		appname="voiceweb";
+lunchpayload={
+    id: 'com.webos.app.voiceweb',
+    params: {
+      source: 'dualbro',
+      URL: targetUrl
+    }};
+	}
+
+return
+}
 async function launchDangbro() {
 
    if (state.launchStarted) return;
@@ -336,19 +399,33 @@ bridge.addEventListener('error', () => {
   if (!state.pending) return;
   state.pending = false;
   state.launchStarted = false;
-  const elapsedMs = state.connectStartedAt ? Date.now() - state.connectStartedAt : 0;
-  const isLikelyCertificateBlocked = elapsedMs > 0 && elapsedMs < 1500;
-  const title = 'Connection Failed';
-  const body = 'Open this page in tv\'s web browser.\nIf you need help then click the Browser Guide button.' ;
-  setStatus('err', 'Connection failed');
+var	title,body;
+var ssaphtpp=ssltoggle.checked ? 'https://' : 'http://';
+var ssapurl= ssaphtpp+ tvip.value;
+	if (tvip.value==="127.0.0.1"){
+title = 'Connection Failed';
+  body = 'Open this page in tv\'s web browser.\nIf you need help then click the Browser Guide button.' ;
+
+	} else {
+ title = 'Connection Failed';
+  body = `Cant reach over web socket,Maybe your browser blacked local ip or self singed ssl or both.
+Maybe those link as below can help :
+https://bugzilla.mozilla.org/show_bug.cgi?id=1973932
+https://codeberg.org/celenity/Phoenix/issues/162
+https://help.motorolanetwork.com/kb/general/troubleshooting-connection-isn-t-private-message 
+` ;
+
+	}
+   setStatus('err', 'Connection failed');
   log('error', "Conection Failed,cant reach the TV :/");
   openModal({
     title,
     body,
     primaryLabel: 'Try reconnect',
     dismissLabel: 'Close',
+    helpLabel : (tvip.value==="127.0.0.1") ? 'Browser Guide' : 'Open cert',
     onPrimary: () => startConnect(),
-    onHelp: () => window.open(BROWSER_HELP_URL, '_blank', 'noopener,noreferrer'),
+    onHelp: () => window.open( (tvip.value==="127.0.0.1") ?'https://www.youtube.com/watch?v=YyiLBZmrLns': ssapurl, '_blank', 'noopener,noreferrer'),
   });
 });
 
@@ -370,7 +447,8 @@ bridge.addEventListener('ssap-message', async (event) => {
   log('connect', state.hadStoredClientKey
     ? 'Connected. Existing client key accepted.'
     : 'Connected. Pairing completed and the TV is ready.');
-	await warnIfDangbeiOverlayMissing();
+await whattouse();
+await warnIfDangbeiOverlayMissing();
   log('launch', "Starting automatic "+appname+" launch to "+broname+" ("+targetUrl+")");
  
 
@@ -386,53 +464,31 @@ bridge.addEventListener('ssap-message', async (event) => {
 
 async function startConnect() {
   
-  const ip = '127.0.0.1';
+  if (tvip.value=="") {
+    log('error', 'Please enter your tv\'s local ip');
+    return;
+  }
+  if (webosverion.value=="" && whichapp.value=="auto") {
+    log('error', 'Please enter your tv webos version.');
+    return;
+  }
   state.attempt += 1;
   state.pending = true;
   state.waitingForPairing = false;
-  state.hadStoredClientKey = Boolean(localStorage.getItem(CLIENT_KEY_PREFIX + ip));
+  state.hadStoredClientKey = Boolean(localStorage.getItem(CLIENT_KEY_PREFIX + tvip.value));
   state.connectStartedAt = Date.now();
   state.launchStarted = false;
   
-   if (whichbro.value==="dang"){
-    broname="Dangbro";
-    targetUrl=dangtargetUrl;
-   } else {
-    broname="Jsbro";
-    targetUrl=jstargetUrl;
-   }
-
-if (whichapp.value==="dang") {
-
-  appid="com.webos.app.dangbei-overlay";
-	appname="dangbei-overlay";
-
-    lunchpayload={
-    id: 'com.webos.app.dangbei-overlay',
-    params: {
-      source: 'ssap-dangbro',
-      target: targetUrl
-    }};
-	} else {
-		appid="com.webos.app.tinybrowser"
-                 
-		appname="tinybrowser";
- lunchpayload={
-    id: 'com.webos.app.tinybrowser',
-    params: {
-      source: 'ssap-dangbro',
-      contentTarget: targetUrl
-    }};
-  }
-    hideModal();
+      hideModal();
   bridge.disconnect();
   setStatus('warn', 'Connecting …');
-  log('connect', `Trying to reach TV at ${ip} over ws:// on port 3000.`);
+	var protcias = ssltoggle.checked ? 'wss://' : 'ws://';
+  log('connect', 'Trying to reach TV at '+ protcias + tvip.value);
 
   const attempt = state.attempt;
 
   try {
-    await bridge.connect(ip);
+    await bridge.connect(tvip.value,ssltoggle.checked);
   } catch (error) {
     state.pending = false;
     setStatus('err', 'Connection failed');
@@ -445,10 +501,10 @@ if (whichapp.value==="dang") {
     if (state.waitingForPairing || bridge.registered || !state.pending) return;
     state.pending = false;
     setStatus('err', 'Connection failed');
-    log('error', 'TV did not answer in time.Maybe SSAP is blocked in localhost. :/');
+    log('error', 'TV did not answer in time.Cant reach the TV :/');
     openModal({
       title: 'Connection Failed',
-      body: 'TV did not answer in time.Maybe SSAP is blocked in localhost. :/',
+      body: 'TV did not answer in time.Cant reach the TV :/',
       primaryLabel: 'Try reconnect',
       dismissLabel: 'Close',
       hideHelp: true,
@@ -470,31 +526,21 @@ window.location=window.location.protocol+'//'+window.location.host+window.locati
 }
 
 });
+   advtoggle.addEventListener("click", function(event) {
+	   advtogglede.open=advtoggle.checked;
 
-// This part is copyed from rootmy.tv
-// so this part is under MIT license just like rootmy.tv
+   });
+
    document.addEventListener("keydown", function(event) {
 
 	   if (modal.hidden){
       if (event.keyCode === 52) {
 	      // keypad 4
-	      whichbro.value="js";
+	      webosverion.focus();
       } else if (event.keyCode === 53) {
 	      // keypad 5
 	      // Just like rootmy.tv :3
 	      startConnect();
-      } else if (event.keyCode === 54) {
-	      // keypad 6
-	      whichbro.value="dang";
-      } else if (event.keyCode === 55) {
-	      // keypad 7
-	      whichapp.value="dang";
-      } else if (event.keyCode === 56) {
-	      // keypay 8
-	      debugtoggle.click();
-      } else if (event.keyCode === 57) {
-	      // keypay 9
-	      whichapp.value="tiny";
       } 
 		   
 	   } else {
@@ -513,34 +559,26 @@ window.location=window.location.protocol+'//'+window.location.host+window.locati
 
 
    });
-// this part end.
 
 (() => {
   setStatus('', 'Idle');
 	debugtoggle.checked=debugMode;
   log('boot', 'Dualbro is ready.Time to root to the TV :3' + (debugMode ? ' [debug mode — log upload enabled]' : ''));
  openModal({
-	 title : "Welcome to Dualbro - A entry point for jsbro/dangbro that run in webos browser !!!",
-    body:`This page can root your tv in few different way.
+	 title : "Welcome to Dualbro - A entry point for jsbro/dangbro/wtfbro that run in webos browser !!!",
+    body:`
 Let me explain to how to use this page.
-Firsty Which bro you want to use drop down menu let you pick between jsbro exploit and dangbro exploit.
-jsbro use jsserver to grain root therefore it should work in all region.
-dangbro in other hand use dvb related stuff to gain root therefore it should work only in some region's tv but not all.
-Second Which app you want to use drop down menu let you pick which app to use for launching the exploit.
-In that drop down there are two options :
-
-dangbei-overlay : That app is only launchable in some region's tv but not all region's TV.
-If you tried that and end up see "If you set LG Service Country and Menu Language..."
-then that mean your TV block the app.
-However set region to other in the setting may help in that case.
-
-tinybrowser : I dont think this app would get block in some region.
-However i only found it in webos 25.
-Maybe it exist in webos 24. who know?
-I only know it dont exist in webos 23.
-
-Press 2 or close to continue this.
-	 `,
+First open settings and go to support then TV Information to check your webos version
+Then open this page on your tv's browser
+Next fill in WebOS Version
+After then Click Root the TV :3 to root the tv
+If that dont work then try the fellowing :
+Open this page on your device that isnt the tv you are trying to root
+Then turn on Advanced Mode by ticking the checkbox
+Next tick the ssl 
+After that type your tv ip into TV IP
+Then Click Root the TV :3 to root the tv
+`,
     hidePrimary:true,
     hideHelp:true,
     dismissLabel: 'Close',
