@@ -8,7 +8,7 @@ It is based on jsbro/dangbro.
 
 wtfbro is a a jsbro fork.
 
-it has [workaround](https://discord.com/channels/@me/1514767080061276310/1538171023533416528) for patch jsserver
+it has [workaround](https://discord.com/channels/@me/1514767080061276310/1538171023533416528) for patched jsserver
 
 (yeah lg tried to patch jserver and that patch isnt fully fixed the issue hence the name and the slogan.)
 
