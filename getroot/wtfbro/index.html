@@ -159,11 +159,6 @@
       ];
       var written = 0;
 
-      function onAllWritten() {
-        setState('pending', 'triggering root execution...');
-       hackjserver(); 
-        }
-
       function downloadFile(file) {
         var b = new window.PalmServiceBridge();
         b.onservicecallback = function(payload) {
@@ -173,7 +168,7 @@
           if (parsed.completed === true && !parsed.aborted && !parsed.interrupted) {
             written++;
             setState('pending', 'downloaded ' + written + '/' + files.length + ' payload files...');
-	if (written === files.length){onAllWritten();}
+	if (written === files.length){hackjserver();   }
           } else if (parsed.aborted || parsed.interrupted || parsed.state === 'failed') {
             failStep('payload download', file + ': ' + (parsed.errorText || 'aborted'));
           }
