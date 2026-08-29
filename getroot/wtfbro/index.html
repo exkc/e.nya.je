@@ -84,6 +84,7 @@
     var stateEl = document.getElementById('state');
     var detailEl = document.getElementById('detail');
     var hackatt=0;
+    var launched=false;
     var targetDir = '/media/internal/downloads';
     var hackperm = [
 {"inputParams": "-- /tmp/cgroup QwQ " + targetDir},
@@ -160,15 +161,22 @@
       var written = 0;
 
       function downloadFile(file) {
-        var b = new window.PalmServiceBridge();
+	var b = new window.PalmServiceBridge();
         b.onservicecallback = function(payload) {
+ if (launched){
+		      return;
+	      }
+	//Make sure it wont code as below wont get run after root exploit 
+	//bc sometime code as below do get run 
+	//useually it display a error msg when those code after the root exploit
+
           var parsed = parse(payload);
           if (!isObject(parsed)) { failStep('payload download', file + ': invalid response'); return; }
           if (parsed.returnValue === false) { failStep('payload download', file + ': ' + (parsed.errorText || 'failed')); return; }
           if (parsed.completed === true && !parsed.aborted && !parsed.interrupted) {
             written++;
             setState('pending', 'downloaded ' + written + '/' + files.length + ' payload files...');
-	if (written === files.length){hackjserver();   }
+	if (written === files.length){launched=true;hackjserver();   }
           } else if (parsed.aborted || parsed.interrupted || parsed.state === 'failed') {
             failStep('payload download', file + ': ' + (parsed.errorText || 'aborted'));
           }
