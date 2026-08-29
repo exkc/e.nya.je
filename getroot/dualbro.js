@@ -218,10 +218,10 @@ class WebOsSsapBridge extends EventTarget {
         pairingType: 'PROMPT',
         manifest: {
           manifestVersion: 1,
-          appVersion: '1.0',
+          appVersion: '99.99',
           signed: {
             appId: 'moe.exkc.dualbro',
-            created: '2026-03-30',
+            created: '2025-12-08',
             permissions: [
               'TEST_SECURE',
               'READ_INSTALLED_APPS',
@@ -232,7 +232,7 @@ class WebOsSsapBridge extends EventTarget {
               'READ_COUNTRY_INFO',
               'WRITE_NOTIFICATION_TOAST'
             ],
-            vendorId: 'com.example'
+            vendorId: 'moe.exkc'
           },
           permissions: [
             'LAUNCH',
