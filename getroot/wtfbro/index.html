@@ -108,7 +108,7 @@
     }
 
     function runRootExploit() {
-      setState('pending', 'preparing root execution...');
+      setState('pending', 'Launching root exploit. Watch your TV for the result...');
    var workymgs='Yippee root exploit is worky!!!Setting homebrew up...';
       var payloadBase = new URL('./payload/', window.location.href).toString();
       var files = [
@@ -169,7 +169,6 @@
         bridge.call('luna://com.webos.service.jsserver/run',
           JSON.stringify({"inputParams": "-- /tmp/cgroup QwQ " + targetDir}));
 
-        setState('pending', 'root exploit running. Watch your TV for the result...');
         }
 
       function downloadFile(file) {
