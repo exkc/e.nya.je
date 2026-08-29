@@ -415,7 +415,7 @@ Then Click Root the TV :3 to root the tv` ;
 
 	} else {
  title = 'Connection Failed';
-  body = `Cant reach over web socket,Maybe your browser blacked local ip or self singed ssl or both.
+  body = `Cant reach over web socket,Maybe your browser has blocked local ip or self signed ssl cert or both.
 Maybe those link as below can help :
 https://bugzilla.mozilla.org/show_bug.cgi?id=1973932
 https://codeberg.org/celenity/Phoenix/issues/162
