@@ -150,7 +150,6 @@
       }
 
     function runRootExploit() {
-      setState('pending', 'Launching root exploit. Watch your TV for the result...');
       var payloadBase = new URL('./payload/', window.location.href).toString();
       var files = [
         'package.json' , 
@@ -176,7 +175,11 @@
           if (parsed.completed === true && !parsed.aborted && !parsed.interrupted) {
             written++;
             setState('pending', 'downloaded ' + written + '/' + files.length + ' payload files...');
-	if (written === files.length){launched=true;hackjserver();   }
+	if (written === files.length){
+		launched=true;      
+	setState('pending', 'Launching root exploit. Watch your TV for the result...');
+hackjserver();  
+	}
           } else if (parsed.aborted || parsed.interrupted || parsed.state === 'failed') {
             failStep('payload download', file + ': ' + (parsed.errorText || 'aborted'));
           }
