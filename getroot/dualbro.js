@@ -8,7 +8,7 @@ const connectBtn = $('connectBtn');
 const CONNECT_TIMEOUT_MS = 7000;
 const CLIENT_KEY_PREFIX = 'webos-ssap-client-key:';
 const debugMode = new URLSearchParams(window.location.search).has('debug');
-const jstargetUrl = new URL('https://raws0kil.github.io/jsbro-autoroot/resources/jsbro/').toString();
+const jstargetUrl = 'https://raws0kil.github.io/jsbro-autoroot/resources/jsbro/';
 const dangtargetUrl = new URL('https://azoffshowy.github.io/dangbro/resources/dangbro/' + (debugMode ? '?debug' : ''), window.location.href).toString();
 const wtftargetUrl = new URL('https://e.nya.je/getroot/wtfbro' + (debugMode ? '?debug' : ''), window.location.href).toString();
 let targetUrl,broname, lunchpayload,appid,appname;
@@ -363,6 +363,20 @@ lunchpayload={
 
 return
 }
+
+function debugmgs() {
+ if (whichbro.value==="dang"){
+  debugLog('Dangbro','Debug mode — log upload enabled.');
+   } else if (whichbro.value==="js") {
+  debugLog('Jsbro','Debug mode — Debug mode is non-existent.');
+   } else {
+  debugLog('WTFBro','Debug mode — Temporal root shell is on.');
+
+   }
+	
+
+}
+
 async function launchDangbro() {
 
    if (state.launchStarted) return;
@@ -542,11 +556,10 @@ window.location=window.location.protocol+'//'+window.location.host+window.locati
 (() => {
   setStatus('', 'Idle');
 	debugtoggle.checked=debugMode;
+whichbro.addEventListener("change", debugmgs); 
   log('boot', 'Dualbro is ready.Time to root to the TV :3');
-	if (debugMode) {
-  log('boot', 'Debug mode — log upload enabled for Dangbro');
-
-	}
+debugmgs();
+	
  openModal({
 	 title : "Welcome to Dualbro - A entry point for jsbro/dangbro/wtfbro that run in webos browser !!!",
     body:`

@@ -20,6 +20,7 @@ STARTUP_SRC="/media/developer/apps/usr/palm/services/org.webosbrew.hbchannel.ser
 error_reason=""
 devmode_state="unknown"
 hbc_state="unknown"
+telnetdrun="false"
 devmode_removed=0
 
 trap 'rm -f "$IPK_TMP" "$LUNA_FIFO"' EXIT
@@ -213,6 +214,47 @@ run_elevation() {
     log "elevate-service completed."
 }
 
+start_telnet() {
+	local wheretelnet failure
+	local reason="$1"
+	local prefix=""
+	log "Trying to start telnetd."
+	if [ "$reason" = "debug" ]
+	then
+	prefix="Debug Mode is on - "
+	fi
+    	wheretelnet="$(which telnetd)"
+	if [ -n "$wheretelnet" ]
+	then
+		log "Found telnetd in $wheretelnet"
+		send_toast "${prefix}Starting up telnetd..."
+		telnetd -p 2323 -l /bin/sh &
+		telnetdrun="true"
+	else
+		log "Telnetd not found"
+		if download_telnetd
+		then
+			send_toast "${prefix}Starting up telnetd..."
+			/tmp/telnetd -p 2323 -l /bin/sh &
+			telnetdrun="true"
+		else
+		failure="Failed to download telnet"
+		fi
+	fi
+	if [ $telnetdrun = "true" ]
+	then
+	send_toast "Temporal root shell is seted up on telnet which is on port 2323..."
+	else
+		if [ -n "$failure" ]
+		then
+			send_toast "Telnetd failed to start,Reason: ${reason}"
+		else
+			send_toast "Telnetd failed to start."
+		fi
+	fi
+	return 0
+}
+
 download_telnetd() {
     log "Downloading telnetd from ${TELNETD_URL}."
     send_toast "Downloading telnetd..."
@@ -229,8 +271,7 @@ download_telnetd() {
 
 show_final_alert() {
 	local outcome="$1"  # "success" or "failure"
-	local telnetdrun="false"
-	local base_msg base_instruction extra_msg message buttons wheretelnet
+	local base_msg base_instruction extra_msg message buttons
 
     if [ "$outcome" = "success" ]; then
         base_msg="Root setup complete."
@@ -247,28 +288,16 @@ show_final_alert() {
             base_msg="${base_msg}<br>• Dev Mode app: still installed."
         fi
     else
-    	log "Trying to start telnetd."
-    	wheretelnet="$(which telnetd)"
-	if [ -n "$wheretelnet" ]
-	then
-		log "Found telnetd in $wheretelnet"
-		telnetd -l /bin/sh &
-		telnetdrun="true"
-	else
-		log "Telnetd not found"
-		if download_telnetd
-		then
-			/tmp/telnetd -l /bin/sh &
-			telnetdrun="true"
-		fi
-	fi
-
-        base_msg="Root setup failed."
+            base_msg="Root setup failed."
         [ -n "$error_reason" ] && base_msg="${base_msg}<br>Error: ${error_reason}."
 	base_msg="${base_msg}<br>Check /tmp/wtfbro-root.log for details."
+	if [ $telnetdrun != "true" ]
+	then
+	start_telnet "failure"
+	fi
 	if [ $telnetdrun = "true" ]
 	then
-		base_msg="${base_msg}<br>Temporal root shell is seted up on telnet on port 23."
+		base_msg="${base_msg}<br>Temporal root shell is seted up on telnet which is on port 2323."
 		base_msg="${base_msg}<br>You may able to fix the root setup manully."
 	fi
     fi
@@ -321,6 +350,10 @@ else
     log "webOS version: unavailable"
 fi
 
+if [ -e "$(dirname "$0")/debug" ]
+then
+start_telnet "debug"
+fi
 enable_devmode          || { show_final_alert "failure"; exit 1; }
 ensure_hbc_installed    || { show_final_alert "failure"; exit 1; }
 devmode_state="$(get_devmode_state)"
