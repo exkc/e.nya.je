@@ -221,7 +221,7 @@ start_telnet() {
 	log "Trying to start telnetd."
 	if [ "$reason" = "debug" ]
 	then
-	prefix="Debug Mode is on - "
+	prefix="Debug Mode - "
 	fi
     	wheretelnet="$(which telnetd)"
 	if [ -n "$wheretelnet" ]
@@ -271,12 +271,12 @@ download_telnetd() {
 
 show_final_alert() {
 	local outcome="$1"  # "success" or "failure"
-	local base_msg base_instruction extra_msg message buttons
+	local base_msg base_instruction extra_msg ultraextra_msg message buttons
 
     if [ "$outcome" = "success" ]; then
-        base_msg="Root setup complete."
+        base_msg="Root setup complete.<br>TV status :"
         base_instruction="To keep root active you need to reboot the TV (QuickStart+ disabled). You can confirm root status in the HBC settings page."
-        case "$hbc_state" in
+	case "$hbc_state" in
             installed)       base_msg="${base_msg}<br>• Homebrew Channel: installed. OK" ;;
             already_present) base_msg="${base_msg}<br>• Homebrew Channel: already present. OK" ;;
         esac
@@ -291,28 +291,45 @@ show_final_alert() {
             base_msg="Root setup failed."
         [ -n "$error_reason" ] && base_msg="${base_msg}<br>Error: ${error_reason}."
 	base_msg="${base_msg}<br>Check /tmp/wtfbro-root.log for details."
-	if [ $telnetdrun != "true" ]
+	if [ "$telnetdrun" != "true" ]
 	then
 	start_telnet "failure"
 	fi
-	if [ $telnetdrun = "true" ]
-	then
-		base_msg="${base_msg}<br>Temporal root shell is seted up on telnet which is on port 2323."
-		base_msg="${base_msg}<br>You may able to fix the root setup manully."
-	fi
     fi
+	if [ "$telnetdrun" = "true" ]
+	then
+
+	if [ "$outcome" = "success" ]
+	then
+	ultraextra_msg="Debug mode : Temporal root shell is seted up on telnet which is on port 2323"
+	else
+	ultraextra_msg="Temporal root shell is seted up on telnet which is on port 2323"
+	ultraextra_msg="${ultraextra_msg}<br>You may able to fix the root setup manully."
+	fi
+
+	else
+	ultraextra_msg=""
+	fi
 
     case "$devmode_state" in
         true)
-            extra_msg="The LG Developer Mode app is still installed. Remove it manually before rebooting or root access may be lost."
+            extra_msg="Warning : The LG Developer Mode app is still installed. Remove it manually before rebooting or root access may be lost."
             ;;
         unknown)
-            extra_msg="Could not determine whether the LG Developer Mode app is still installed. Check it before rebooting or root access may be lost."
+            extra_msg="Warning : Could not determine whether the LG Developer Mode app is still installed. Check it before rebooting or root access may be lost."
             ;;
         *)
             extra_msg=""
             ;;
     esac
+
+if [ -n "$ultraextra_msg" ] && [ -n "$extra_msg" ]
+then
+extra_msg="${extra_msg}<br>${ultraextra_msg}"
+elif [ -n "$ultraextra_msg" ] 
+then
+extra_msg="${ultraextra_msg}"
+fi
 
     # Reboot shortcut only when root is confirmed set up and devmode app is absent
     if [ "$outcome" = "success" ] && [ "$devmode_state" = "false" ]; then
@@ -321,9 +338,11 @@ show_final_alert() {
         buttons='[{"label":"OK"}]'
     fi
 
-    [ -n "$extra_msg" ] \
-        && message="<h3>${SCRIPT_NAME}</h3><br>${base_msg}<br><br>${extra_msg}<br><br>${base_instruction}" \
-        || message="<h3>${SCRIPT_NAME}</h3><br>${base_msg}<br><br>${base_instruction}"
+        message="<h3>${SCRIPT_NAME}</h3><br>${base_msg}<br><br>${base_instruction}" 
+    if [ -n "$extra_msg" ] 
+    then
+  	message="${message}<br><br>${extra_msg}" 
+    fi
 
     log "Creating final alert dialog."
     luna-send -w 2000 -a "$APPID" -n 1 \
