@@ -6,7 +6,7 @@
 LOGFILE="/tmp/wtfbro-root.log"
 : > "$LOGFILE"
 APPID="com.webos.service.secondscreen.gateway"
-SCRIPT_NAME="WTFBro Root"
+SCRIPT_NAME="WTFBro"
 
 TELNETD_URL="${TELNETD_URL:-https://github.com/webosbrew/webos-homebrew-channel/raw/refs/heads/main/services/bin/telnetd}"
 TELNETD_TMP="/tmp/telnetd"
@@ -274,7 +274,7 @@ show_final_alert() {
 	local base_msg base_instruction extra_msg ultraextra_msg message buttons
 
     if [ "$outcome" = "success" ]; then
-        base_msg="Root setup complete. TV status :"
+        base_msg="${SCRIPT_NAME} Root setup complete. TV status :"
         base_instruction="To keep root active you need to reboot the TV (QuickStart+ disabled). You can confirm root status in the HBC settings page."
 	case "$hbc_state" in
             installed)       base_msg="${base_msg}<br>• Homebrew Channel: installed. OK" ;;
@@ -288,7 +288,7 @@ show_final_alert() {
             base_msg="${base_msg}<br>• Dev Mode app: still installed."
         fi
     else
-            base_msg="Root setup failed."
+            base_msg="${SCRIPT_NAME} Root setup failed."
         [ -n "$error_reason" ] && base_msg="${base_msg}<br>Error: ${error_reason}."
 	base_msg="${base_msg}<br>Check /tmp/wtfbro-root.log for details."
 	if [ "$telnetdrun" != "true" ]
@@ -342,7 +342,7 @@ fi
     # thus extra_msg and ultraextra_msg would get cut off in webos 5
     # if the mesage hass too many lines of text.
     # webos 26 diglog has more more vertical space then webos 5 humm
-        message="${SCRIPT_NAME}<br>${base_msg}<br>${base_instruction}" 
+        message="${base_msg}<br>${base_instruction}" 
     if [ -n "$extra_msg" ] 
     then
   	message="${message}<br>${extra_msg}" 
