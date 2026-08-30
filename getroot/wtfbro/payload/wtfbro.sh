@@ -337,11 +337,10 @@ fi
     else
         buttons='[{"label":"OK"}]'
     fi
-
-        message="<h3>${SCRIPT_NAME}</h3><br>${base_msg}<br><br>${base_instruction}" 
+        message="${SCRIPT_NAME}<br>${base_msg}<br>${base_instruction}" 
     if [ -n "$extra_msg" ] 
     then
-  	message="${message}<br><br>${extra_msg}" 
+  	message="${message}<br>${extra_msg}" 
     fi
 
     log "Creating final alert dialog."
