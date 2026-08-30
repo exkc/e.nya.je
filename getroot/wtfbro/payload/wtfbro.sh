@@ -274,7 +274,7 @@ show_final_alert() {
 	local base_msg base_instruction extra_msg ultraextra_msg message buttons
 
     if [ "$outcome" = "success" ]; then
-        base_msg="Root setup complete.<br>TV status :"
+        base_msg="Root setup complete. TV status :"
         base_instruction="To keep root active you need to reboot the TV (QuickStart+ disabled). You can confirm root status in the HBC settings page."
 	case "$hbc_state" in
             installed)       base_msg="${base_msg}<br>• Homebrew Channel: installed. OK" ;;
