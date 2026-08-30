@@ -562,8 +562,7 @@ debugmgs();
 	
  openModal({
 	 title : "Welcome to Dualbro - A entry point for jsbro/dangbro/wtfbro !!!",
-    body:`
-Let me explain to how to use this page.
+    body:`Let me explain to how to use this page.
 First open settings and go to support then TV Information to check your webos version
 Then open this page on your tv's browser
 Next fill in WebOS Version
