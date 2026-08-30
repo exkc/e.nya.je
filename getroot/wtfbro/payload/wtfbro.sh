@@ -337,6 +337,10 @@ fi
     else
         buttons='[{"label":"OK"}]'
     fi
+    # webos 5 createAlert dialog dont have vertical space
+    # so dont make too much empty line
+    # otherwise extra_msg amd ultraextra_msg would get cut off in webos 5
+    # webos 26 diglog has more more vertical space then webos 5 humm
         message="${SCRIPT_NAME}<br>${base_msg}<br>${base_instruction}" 
     if [ -n "$extra_msg" ] 
     then
