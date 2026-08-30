@@ -561,7 +561,7 @@ whichbro.addEventListener("change", debugmgs);
 debugmgs();
 	
  openModal({
-	 title : "Welcome to Dualbro - A entry point for jsbro/dangbro/wtfbro that run in webos browser !!!",
+	 title : "Welcome to Dualbro - A entry point for jsbro/dangbro/wtfbro !!!",
     body:`
 Let me explain to how to use this page.
 First open settings and go to support then TV Information to check your webos version
