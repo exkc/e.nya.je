@@ -210,22 +210,6 @@ run_elevation() {
     log "elevate-service completed."
 }
 
-# ---------- reporting ----------
-
-upload_log() {
-    local url
-    url="$(curl -s --max-time 10 --data-binary @"$LOGFILE" 'https://paste.rs' 2>/dev/null)"
-    case "$url" in
-        https://paste.rs/*)
-            log "Log uploaded: ${url}"
-            echo "$url"
-            return 0
-            ;;
-    esac
-    log "Log upload failed or returned unexpected response."
-    return 1
-}
-
 show_final_alert() {
     local outcome="$1"  # "success" or "failure"
     local base_msg base_instruction extra_msg message buttons
@@ -246,13 +230,8 @@ show_final_alert() {
         fi
     else
         base_msg="Root setup failed."
-        [ -n "$error_reason" ] && base_msg="${base_msg} Error: ${error_reason}."
-        local log_url
-        if [ -n "${UPLOAD_LOG}" ] && log_url="$(upload_log)"; then
-            base_msg="${base_msg}<br>Log: ${log_url}"
-        else
-            base_msg="${base_msg} Check /tmp/wtfbro-root.log for details."
-        fi
+        [ -n "$error_reason" ] && base_msg="${base_msg}<br>Error: ${error_reason}."
+        base_msg="${base_msg}<br>Check /tmp/wtfbro-root.log for details."
     fi
 
     case "$devmode_state" in
