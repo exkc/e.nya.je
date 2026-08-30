@@ -297,7 +297,7 @@ async function warnIfDangbeiOverlayMissing() {
   let hasDangbeiOverlay = apps.some((app) => app && app.id === appid );
   if (!hasDangbeiOverlay) {
     log('warn', appid+' was not found in listApps. If nothing happens on the TV it is likely not vulnerable.');
-    log('warn', 'You can try use another app if you want. (Try picking different app in Which app you want to use)');
+    log('warn', 'You can try use another app if you want. (Try picking different app in entry point option after truning on advanced mode.)');
 
   } else {
     log('success', 'Confirmed existence of '+appname+' app.');
@@ -306,11 +306,13 @@ async function warnIfDangbeiOverlayMissing() {
 
 async function whattouse() {
 let whichhhh;
+// voiceweb is kind of a holy grail 
+// it existed since webos 5
+// and stay unchnage since then
+// also webos26 dangbei is gone but voiceweb aint
 if (whichapp.value==="auto") {
-if ( webosverion.value ==26 || webosverion.value==11){
+if  ( webosverion.value >= 5 ) {
 whichhhh="voiceweb";
-} else if ( webosverion.value==25 || webosverion.value==10) {
-whichhhh="tiny";
 } else {
 whichhhh="dang";
 }
