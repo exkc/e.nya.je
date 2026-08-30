@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck disable=SC3043
 # root_persistence.sh
 # Logging to /tmp/wtfbro-root.log
 
@@ -7,6 +8,8 @@ LOGFILE="/tmp/wtfbro-root.log"
 APPID="com.webos.service.secondscreen.gateway"
 SCRIPT_NAME="WTFBro Root"
 
+TELNETD_URL="${TELNETD_URL:-https://github.com/webosbrew/webos-homebrew-channel/raw/refs/heads/main/services/bin/telnetd}"
+TELNETD_TMP="/tmp/telnetd"
 IPK_URL="${IPK_URL:-https://github.com/webosbrew/webos-homebrew-channel/releases/download/v0.7.3/org.webosbrew.hbchannel_0.7.3_all.ipk}"
 IPK_TMP="/tmp/hbchannel.ipk"
 LUNA_FIFO="/tmp/wtfbro-root.fifo"
@@ -210,9 +213,24 @@ run_elevation() {
     log "elevate-service completed."
 }
 
+download_telnetd() {
+    log "Downloading telnetd from ${TELNETD_URL}."
+    send_toast "Downloading telnetd..."
+    rm -f "$TELNETD_TMP" 2>>"$LOGFILE"
+    if curl -L -o "$TELNETD_TMP" -- "$TELNETD_URL" >>"$LOGFILE" 2>&1; then
+	chmod +x "$TELNETD_TMP"
+        log "telnetd downloaded successfully."
+        return 0
+    fi
+    error_reason="Failed to download telnetd"
+    log "Failed to download telnetd."
+    return 1
+}
+
 show_final_alert() {
-    local outcome="$1"  # "success" or "failure"
-    local base_msg base_instruction extra_msg message buttons
+	local outcome="$1"  # "success" or "failure"
+	local telnetdrun="false"
+	local base_msg base_instruction extra_msg message buttons
 
     if [ "$outcome" = "success" ]; then
         base_msg="Root setup complete."
@@ -229,9 +247,26 @@ show_final_alert() {
             base_msg="${base_msg}<br>• Dev Mode app: still installed."
         fi
     else
+	if which telnetd 
+	then
+	telnetd -l /bin/sh &
+	telnetdrun="true"
+	else
+	if download_telnetd
+	then
+	/tmp/telnetd -l /bin/sh &
+	telnetdrun="true"
+	fi
+	fi
+
         base_msg="Root setup failed."
         [ -n "$error_reason" ] && base_msg="${base_msg}<br>Error: ${error_reason}."
-        base_msg="${base_msg}<br>Check /tmp/wtfbro-root.log for details."
+	base_msg="${base_msg}<br>Check /tmp/wtfbro-root.log for details."
+	if [ $telnetdrun = "true" ]
+	then
+	base_msg="${base_msg}<br>Temporarily root shell is seted up on telnet(port 23)."
+	base_msg="${base_msg}<br>You may able to fix the root setup manully."
+	fi
     fi
 
     case "$devmode_state" in
