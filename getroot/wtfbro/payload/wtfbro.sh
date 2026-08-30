@@ -230,7 +230,7 @@ download_telnetd() {
 show_final_alert() {
 	local outcome="$1"  # "success" or "failure"
 	local telnetdrun="false"
-	local base_msg base_instruction extra_msg message buttons
+	local base_msg base_instruction extra_msg message buttons wheretelnet
 
     if [ "$outcome" = "success" ]; then
         base_msg="Root setup complete."
@@ -247,16 +247,20 @@ show_final_alert() {
             base_msg="${base_msg}<br>• Dev Mode app: still installed."
         fi
     else
-	if which telnetd 
+    	log "Trying to start telnetd."
+    	wheretelnet="$(which telnetd)"
+	if [ -n "$wheretelnet" ]
 	then
-	telnetd -l /bin/sh &
-	telnetdrun="true"
+		log "Found telnetd in $wheretelnet"
+		telnetd -l /bin/sh &
+		telnetdrun="true"
 	else
-	if download_telnetd
-	then
-	/tmp/telnetd -l /bin/sh &
-	telnetdrun="true"
-	fi
+		log "Telnetd not found"
+		if download_telnetd
+		then
+			/tmp/telnetd -l /bin/sh &
+			telnetdrun="true"
+		fi
 	fi
 
         base_msg="Root setup failed."
@@ -264,8 +268,8 @@ show_final_alert() {
 	base_msg="${base_msg}<br>Check /tmp/wtfbro-root.log for details."
 	if [ $telnetdrun = "true" ]
 	then
-	base_msg="${base_msg}<br>Temporal root shell is seted up on telnet(port 23)."
-	base_msg="${base_msg}<br>You may able to fix the root setup manully."
+		base_msg="${base_msg}<br>Temporal root shell is seted up on telnet on port 23."
+		base_msg="${base_msg}<br>You may able to fix the root setup manully."
 	fi
     fi
 
