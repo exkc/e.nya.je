@@ -264,7 +264,7 @@ show_final_alert() {
 	base_msg="${base_msg}<br>Check /tmp/wtfbro-root.log for details."
 	if [ $telnetdrun = "true" ]
 	then
-	base_msg="${base_msg}<br>Temporarily root shell is seted up on telnet(port 23)."
+	base_msg="${base_msg}<br>Temporal root shell is seted up on telnet(port 23)."
 	base_msg="${base_msg}<br>You may able to fix the root setup manully."
 	fi
     fi
