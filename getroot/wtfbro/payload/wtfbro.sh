@@ -192,6 +192,8 @@ ensure_hbc_installed() {
     log "Homebrew Channel missing; attempting installation."
     prepare_hbc_ipk || return 1
 
+    # Give appinstalld more sec
+    # for making sure it would reload properly
     for attempt in 1 2 3 4 5 6 7 8 9 10 ; do
         restart_appinstalld
         if install_ipk; then
