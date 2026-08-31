@@ -192,7 +192,7 @@ ensure_hbc_installed() {
     log "Homebrew Channel missing; attempting installation."
     prepare_hbc_ipk || return 1
 
-    for attempt in 1 2 3; do
+    for attempt in 1 2 3 4 5 6 7 8 9 10 ; do
         restart_appinstalld
         if install_ipk; then
             hbc_state="installed"
@@ -200,7 +200,7 @@ ensure_hbc_installed() {
         fi
         [ "$attempt" -eq 3 ] && { log "Retries exhausted."; return 1; }
         log "Install attempt ${attempt} failed; retrying in $((attempt * 2))s."
-        sleep $((attempt * 2))
+        sleep $((attempt * 5))
     done
 }
 
