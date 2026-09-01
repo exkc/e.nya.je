@@ -559,7 +559,7 @@ window.location=window.location.protocol+'//'+window.location.host+window.locati
 (() => {
   setStatus('', 'Idle');
 	debugtoggle.checked=debugMode;
-	advtogglede.open=debugMode;
+	advtoggle.checked=debugMode;
 	advtogglede.open=advtoggle.checked;
 whichbro.addEventListener("change", debugmgs); 
   log('boot', 'Dualbro is ready.Time to root to the TV :3');
