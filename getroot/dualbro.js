@@ -417,7 +417,8 @@ bridge.addEventListener('error', () => {
   state.launchStarted = false;
 var	title,body;
 var ssaphtpp=ssltoggle.checked ? 'https://' : 'http://';
-var ssapurl= ssaphtpp+ tvip.value;
+var ssapport=ssltoggle.checked ? ':3001' : ':3000';
+var ssapurl= ssaphtpp+ tvip.value + ssapport;
 	if (tvip.value==="127.0.0.1"){
 title = 'Connection Failed';
   body = `Open this page in tv\'s web browser.
@@ -558,6 +559,8 @@ window.location=window.location.protocol+'//'+window.location.host+window.locati
 (() => {
   setStatus('', 'Idle');
 	debugtoggle.checked=debugMode;
+	advtogglede.open=debugMode;
+	advtogglede.open=advtoggle.checked;
 whichbro.addEventListener("change", debugmgs); 
   log('boot', 'Dualbro is ready.Time to root to the TV :3');
 debugmgs();
