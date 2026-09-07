@@ -4,6 +4,7 @@ const logEl = $('log');
 const statusDot = $('statusDot');
 const statusText = $('statusText');
 const connectBtn = $('connectBtn');
+let advnotopened = true;
 
 const CONNECT_TIMEOUT_MS = 7000;
 const CLIENT_KEY_PREFIX = 'webos-ssap-client-key:';
@@ -550,6 +551,10 @@ window.location=window.location.protocol+'//'+window.location.host+window.locati
 
 });
    advtoggle.addEventListener("click", function(event) {
+	   if (advnotopened) {
+		ssltoggle.checked=true;
+		advnotopened=false;
+	   }
 	   advtogglede.open=advtoggle.checked;
 
    });
