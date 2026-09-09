@@ -368,9 +368,9 @@ return
 }
 
 function debugmgs() {
-  debugLog('Dualbro','Debug mode — verbose log enabled.');
+  debugLog('Dualbro','Debug mode — Verbose log enabled.');
  if (whichbro.value==="dang"){
-  debugLog('Dangbro','Debug mode — log upload enabled.');
+  debugLog('Dangbro','Debug mode — Log upload enabled.');
    } else if (whichbro.value==="js") {
   debugLog('Jsbro','Debug mode — Debug mode is non-existent.');
    } else {
