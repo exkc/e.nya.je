@@ -56,6 +56,7 @@
       font-weight: 700;
     }
 
+    .warning { color: #00f; }
     .pending { color: #ffef00; }
     .success { color: #80ff00; }
     .failed { color: #f00; }
@@ -121,7 +122,7 @@
 
             failStep('jsserver', 'jsserver is patched.Workarounds are patched');
 		  } else {
-            failStep('jsserver', 'jsserver is patched.Trying workaround...');
+            setState('warning', 'jsserver is patched.Trying workaround...');
 		  hackatt=hackatt+1;
 	hackjserver();
 		  }
