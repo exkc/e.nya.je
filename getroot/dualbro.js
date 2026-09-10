@@ -435,9 +435,8 @@ Then Click Root the TV :3 to root the tv` ;
 	} else {
  title = 'Connection Failed';
   body = `Cant reach over web socket,Maybe your browser has blocked local ip or self signed ssl cert or both.
-Maybe those link as below can help :
-https://codeberg.org/celenity/Phoenix/issues/162
-https://superuser.com/questions/1780337/let-firefox-accept-a-website-with-self-signed-certificate
+Maybe try clicking open cert for making your browser accept the self signed cert thus making it wont block the self signed cert. 
+Also see the guide : https://tv.slada.sk/guides/rooting-guide for more help.
 ` ;
 
 	}
