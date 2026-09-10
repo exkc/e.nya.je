@@ -5,7 +5,7 @@
   --text: #c8f7c5;
   --muted: #78a578;
   --bright: #efffea;
-  --accent: #7cff7a;
+  --link: #049e01;
   --warn: #ffd26b;
   --err: #ff7a7a;
   --ok: #7cff7a;
@@ -20,7 +20,9 @@ html,
 body {
   min-height: 100%;
 }
-
+.dialog-body a {
+  color: var(--link);
+}
 body {
   margin: 0;
   background:

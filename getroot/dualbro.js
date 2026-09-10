@@ -41,7 +41,7 @@ function setStatus(type, text) {
 
 function openModal(options) {
   $('modalTitle').textContent = options.title;
-  $('modalBody').textContent = options.body;
+  $('modalBody').innerHTML = options.body;
   $('modalPrimaryBtn').textContent = (options.primaryLabel || 'Retry');
   $('modalDismissBtn').textContent = (options.dismissLabel || 'Close');
   $('modalHelpBtn').textContent = (options.helpLabel || 'Browser Guide');
@@ -436,7 +436,7 @@ Then Click Root the TV :3 to root the tv` ;
  title = 'Connection Failed';
   body = `Cant reach over web socket,Maybe your browser has blocked local ip or self signed ssl cert or both.
 Maybe try clicking open cert for making your browser accept the self signed cert thus making it wont block the self signed cert. 
-Also see the guide : https://tv.slada.sk/guides/rooting-guide for more help.
+Also see <a href=https://tv.slada.sk/guides/rooting-guide>the guide</a> for more help.
 ` ;
 
 	}
