@@ -565,6 +565,12 @@ window.location=window.location.protocol+'//'+window.location.host+window.locati
 	debugtoggle.checked=debugMode;
 	advtoggle.checked=debugMode;
 	advtogglede.open=advtoggle.checked;
+	
+	if (debugMode) {
+		ssltoggle.checked=true;
+		advnotopened=false;
+	}
+
 whichbro.addEventListener("change", debugmgs); 
   log('boot', 'Dualbro is ready.Time to root to the TV :3');
 debugmgs();
