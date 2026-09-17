@@ -159,7 +159,7 @@ restart_appinstalld() {
 
 install_ipk() {
     log "Installing Homebrew Channel from ${IPK_TMP}."
-    send_toast "Installing Homebrew Channel..."
+    send_toast "Please wait installing Homebrew Channel..."
 
     local result
     result="$(luna_subscribe_wait \
@@ -208,7 +208,8 @@ ensure_hbc_installed() {
             return 0
         fi
         [ "$attempt" -eq 10 ] && { log "Retries exhausted."; return 1; }
-        log "Install attempt ${attempt} failed; retrying in $((attempt * 2))s."
+        log "Install attempt ${attempt} failed; retrying in $((attempt * 5))s."
+	send_toast "Please wait installing Homebrew Channel..."
         sleep $((attempt * 5))
     done
 }
