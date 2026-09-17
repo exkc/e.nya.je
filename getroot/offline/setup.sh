@@ -48,10 +48,10 @@ cat << QwQ
 Open the browser on the tv or other devices
 (if you get stuck in the t&s screen when u try to open the browser on the tv 
 then use another device.)
-then go to http://${IP}/offlinemode.html in the browser
+then go to http://${IP}:8080/offlinemode.html in the browser
 If u see QwQ on your tv 
 then 
-you can start to root your tv by fellow instruction as http://${IP}/
+you can start to root your tv by fellow instruction as http://${IP}:8080/
 if u dont see QwQ on your tv
 then 
 check your firewall settings (make sure port 8080 is open)
