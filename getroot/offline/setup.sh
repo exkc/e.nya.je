@@ -79,7 +79,7 @@ fi
 
 if [ -z "$SERVER" ]
 then
-echo "Supported http server not found.Please install php or python"
+echo "Supported http server not found.Please install python"
 exit
 fi
 
