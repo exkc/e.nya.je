@@ -207,7 +207,7 @@ ensure_hbc_installed() {
             hbc_state="installed"
             return 0
         fi
-        [ "$attempt" -eq 3 ] && { log "Retries exhausted."; return 1; }
+        [ "$attempt" -eq 10 ] && { log "Retries exhausted."; return 1; }
         log "Install attempt ${attempt} failed; retrying in $((attempt * 2))s."
         sleep $((attempt * 5))
     done
