@@ -57,17 +57,17 @@ done
 
 runserver() {
 cat << QwQ
-Open the browser on the tv or other devices
+Open the browser on the tv or another device
 (if you get stuck in the t&s screen when u try to open the browser on the tv 
 then use another device.)
 then go to http://${IP}:8080/offlinemode.html in the browser
-If u see QwQ on your tv 
+If u see QwQ in the browser
 then 
 you can start to root your tv by fellow instruction as http://${IP}:8080/
-if u dont see QwQ on your tv
+if u dont see QwQ in the browser
 then 
-check your firewall settings (make sure port 8080 is open)
-maybe those link as below can help on checking your firewall setting :
+check your firewall settings (make sure port 8080 is opened)
+maybe those link as below can help on firewall settings :
 https://github.com/termux-play-store/termux-apps/pull/116
 https://developer.android.com/privacy-and-security/local-network-permission
 https://ubuntuhandbook.org/index.php/2024/07/enable-disable-configure-firewall-ubuntu/
