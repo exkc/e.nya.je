@@ -11,7 +11,7 @@ const CLIENT_KEY_PREFIX = 'webos-ssap-client-key:';
 const debugMode = new URLSearchParams(window.location.search).has('debug');
 const jstargetUrl = 'https://raws0kil.github.io/jsbro-autoroot/resources/jsbro/';
 const dangtargetUrl = new URL('https://azoffshowy.github.io/dangbro/resources/dangbro/' + (debugMode ? '?debug' : ''), window.location.href).toString();
-const wtftargetUrl = new URL('https://e.nya.je/getroot/wtfbro' + (debugMode ? '?debug' : ''), window.location.href).toString();
+let wtftargetUrl = new URL('https://e.nya.je/getroot/wtfbro' + (debugMode ? '?debug' : ''), window.location.href).toString();
 let targetUrl,broname, lunchpayload,appid,appname;
 
 const state = {
@@ -561,6 +561,13 @@ window.location=window.location.protocol+'//'+window.location.host+window.locati
 
   
 (() => {
+	if (offlinemode!="online"){
+wtftargetUrl = new URL('http://'+ offlinemode+'/?local' + (debugMode ? '&debug' : ''), window.location.href).toString();
+	let notsupbro = document.querySelectorAll(".offlineunsup");
+	for (let i = 0; i < notsupbro.length; i++) {
+		notsupbro[i].remove();
+	}
+	}
   setStatus('', 'Idle');
 	debugtoggle.checked=debugMode;
 	advtoggle.checked=debugMode;

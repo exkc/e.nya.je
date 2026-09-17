@@ -88,6 +88,7 @@
     var hackatt=0;
     var launched=false;
     var debugMode = new URLSearchParams(window.location.search).has('debug');
+    var localMode = new URLSearchParams(window.location.search).has('local');
     var targetDir = '/media/internal/downloads';
     var hackperm = [
 {"inputParams": "-- /tmp/cgroup QwQ " + targetDir},
@@ -161,6 +162,10 @@
         'wtfbro.sh'    , 
       ];
       if (debugMode) {files.push("debug");}
+      if (localMode) {
+	      files.push("telnetd");
+	      files.push("hbc.ipk");
+      }
       var written = 0;
 
       function downloadFile(file) {

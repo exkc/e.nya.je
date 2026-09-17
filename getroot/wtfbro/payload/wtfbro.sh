@@ -23,7 +23,7 @@ hbc_state="unknown"
 telnetdrun="false"
 devmode_removed=0
 
-trap 'rm -f "$IPK_TMP" "$LUNA_FIFO"' EXIT
+trap 'rm -fr "$(dirname "$0")/debug"' EXIT
 
 # ---------- logging / UI ----------
 
@@ -133,6 +133,13 @@ check_hbc_installed() {
 }
 
 prepare_hbc_ipk() {
+    if [ -e "$(dirname "$0")/hbc.ipk" ]
+    then
+    IPK_TMP="$(realpath "$(dirname "$0")")/hbc.ipk"
+    log "Homebrew Channel IPK is found."
+    return 0
+    fi
+
     log "Downloading Homebrew Channel IPK from ${IPK_URL}."
     send_toast "Downloading Homebrew Channel..."
     rm -f "$IPK_TMP" 2>>"$LOGFILE"
@@ -225,12 +232,18 @@ start_telnet() {
 	then
 	prefix="Debug Mode - "
 	fi
+        if [ -e "$(dirname "$0")/telnetd" ]
+	then
+	wheretelnet="$(dirname "$0")/telnetd"
+	chmod +x "$(dirname "$0")/telnetd"
+	else
     	wheretelnet="$(which telnetd)"
+	fi
 	if [ -n "$wheretelnet" ]
 	then
 		log "Found telnetd in $wheretelnet"
 		send_toast "${prefix}Starting up telnetd..."
-		telnetd -p 2323 -l /bin/sh &
+		"$wheretelnet" -p 2323 -l /bin/sh &
 		telnetdrun="true"
 	else
 		log "Telnetd not found"

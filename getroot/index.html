@@ -29,8 +29,8 @@
 	       <label for="whichbro">Payload :</label>
 	      <select id="whichbro">
     <option value="wtf">WTFBro (Recommended)</option>
-    <option value="js">Jsbro</option>
-    <option value="dang">Dangbro</option>
+    <option class="offlineunsup" value="js">Jsbro</option>
+    <option class="offlineunsup" value="dang">Dangbro</option>
     </select>
       </div>
 
@@ -92,9 +92,12 @@
       document.getElementById('fileProtocolNotice').hidden = false;
     } else {
       const script = document.createElement('script');
-      script.type = 'module';
-      script.src = './dualbro.js';
+      script.src = './config.js';
       document.body.appendChild(script);
+      const scrript = document.createElement('script');
+      scrript.type = 'module';
+      scrript.src = './dualbro.js';
+      document.body.appendChild(scrript);
     }
   </script>
 </body>
