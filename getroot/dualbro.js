@@ -562,7 +562,7 @@ window.location=window.location.protocol+'//'+window.location.host+window.locati
   
 (() => {
 	if (offlinemode){
-wtftargetUrl = new URL('http://'+ offlinemodeip+'/?local' + (debugMode ? '&debug' : ''), window.location.href).toString();
+wtftargetUrl = new URL('http://'+ offlinemodeip+'/wtfbro?local' + (debugMode ? '&debug' : ''), window.location.href).toString();
 	let notsupbro = document.querySelectorAll(".offlineunsup");
 	for (let i = 0; i < notsupbro.length; i++) {
 		notsupbro[i].remove();
