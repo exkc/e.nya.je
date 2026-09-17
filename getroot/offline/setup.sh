@@ -5,7 +5,13 @@ TELNETD_URL="${TELNETD_URL:-https://github.com/webosbrew/webos-homebrew-channel/
 IPK_URL="${IPK_URL:-https://github.com/webosbrew/webos-homebrew-channel/releases/download/v0.7.3/org.webosbrew.hbchannel_0.7.3_all.ipk}"
 
 download_hbc_ipk() {
-    rm -f './wtfbro/payload/hbc.ipk'
+	
+    if [ -e "./wtfbro/payload/hbc.ipk" ]
+    then
+    echo "Homebrew Channel IPK Found.Skiping Downloading..."
+    return 0
+    fi
+
     echo "Downloading Homebrew Channel IPK from ${IPK_URL}."
     if curl -L -o "./wtfbro/payload/hbc.ipk" -- "$IPK_URL"
     then
@@ -17,7 +23,13 @@ download_hbc_ipk() {
 }
 
 download_telnetd() {
-    rm -f './wtfbro/payload/telnetd'
+    
+    if [ -e "./wtfbro/payload/telnetd" ]
+    then
+    echo "telnetd Found.Skiping Downloading..."
+    return 0
+    fi
+
     echo "Downloading telnetd from ${TELNETD_URL}."
     if curl -L -o "./wtfbro/payload/telnetd" -- "$TELNETD_URL"
     then
