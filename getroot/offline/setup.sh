@@ -60,10 +60,7 @@ https://github.com/termux-play-store/termux-apps/pull/116
 https://developer.android.com/privacy-and-security/local-network-permission
 https://ubuntuhandbook.org/index.php/2024/07/enable-disable-configure-firewall-ubuntu/
 QwQ
-if [ "$SERVER" = "php" ]
-then
-php -S 0.0.0.0:8080
-elif [ "$SERVER" = "python3" ] 
+if [ "$SERVER" = "python3" ] 
 then
 python3 -m http.server 8080
 fi
@@ -75,10 +72,7 @@ then
 echo "Curl not found Please install curl."
 exit
 fi
-if which php > /dev/zero
-then
-SERVER="php"
-elif which python3 > /dev/zero  
+if which python3 > /dev/zero  
 then
 SERVER="python3"
 fi
