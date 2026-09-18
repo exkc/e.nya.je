@@ -1,5 +1,5 @@
 #!/bin/sh
-cd "$(basename "$(dirname "$0")")/.." || exit
+cd "$(realpath "$(dirname "$0")")/.." || exit
 
 TELNETD_URL="${TELNETD_URL:-https://github.com/webosbrew/webos-homebrew-channel/raw/refs/heads/main/services/bin/telnetd}"
 IPK_URL="${IPK_URL:-https://github.com/webosbrew/webos-homebrew-channel/releases/download/v0.7.3/org.webosbrew.hbchannel_0.7.3_all.ipk}"
