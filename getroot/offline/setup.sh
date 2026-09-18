@@ -49,7 +49,7 @@ if [ -z "$IP" ] || [ "$IP" = "0.0.0.0" ] || [ "$IP" = "127.0.0.1" ]
 then
 echo "Invild ip/local network domain.It shouldnt be empty/127.0.0.1/0.0.0.0"
 else
-echo 'const offlinemode=true;const offlinemodeip="'"$IP"':8080";' > config.js
+echo '{"offlinemode":true,"offlinemodeip":"'"$IP"'"}'  > config.json
 break
 fi
 done

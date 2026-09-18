@@ -560,9 +560,23 @@ window.location=window.location.protocol+'//'+window.location.host+window.locati
    });
 
   
-(() => {
-	if (offlinemode){
-wtftargetUrl = new URL('http://'+ offlinemodeip+'/wtfbro?local' + (debugMode ? '&debug' : ''), window.location.href).toString();
+(async () => {
+	const res = await fetch("config.json");
+	const mine = await res.headers.get('Content-Type');
+    if (!(mine === 'application/json')) {
+ openModal({
+	 title : "Error : Cant Fetch Config",
+    body: "",
+    hidePrimary:true,
+    hideHelp:true,
+    dismissLabel: 'Close',
+  });
+	    return;
+    }
+	  const config = await res.json();
+    console.log(typeof(config.offlinemode));
+	if (typeof(config.offlinemode) == "boolean" && config.offlinemode){
+wtftargetUrl = new URL('http://'+ config.offlinemodeip+'/wtfbro?local' + (debugMode ? '&debug' : ''), window.location.href).toString();
 	let notsupbro = document.querySelectorAll(".offlineunsup");
 	for (let i = 0; i < notsupbro.length; i++) {
 		notsupbro[i].remove();

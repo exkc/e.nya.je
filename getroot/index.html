@@ -92,12 +92,9 @@
       document.getElementById('fileProtocolNotice').hidden = false;
     } else {
       const script = document.createElement('script');
-      script.src = './config.js';
+      script.type = 'module';
+      script.src = './dualbro.js';
       document.body.appendChild(script);
-      const scrript = document.createElement('script');
-      scrript.type = 'module';
-      scrript.src = './dualbro.js';
-      document.body.appendChild(scrript);
     }
   </script>
 </body>
