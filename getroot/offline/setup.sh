@@ -47,7 +47,7 @@ echo 'What is the ip/local network domain of this device :'
 read -r IP
 if [ -z "$IP" ] || [ "$IP" = "0.0.0.0" ] || [ "$IP" = "127.0.0.1" ]
 then
-echo "Invild ip/local network domain.It shouldnt be empty/127.0.0.1/0.0.0.0"
+echo "Invalid ip/local network domain.It shouldnt be empty/127.0.0.1/0.0.0.0"
 else
 echo '{"offlinemode":true,"offlinemodeip":"'"$IP"'"}'  > offline.json
 break
@@ -72,7 +72,9 @@ if you get stuck in the t&s screen
 when u try to open the browser on the tv 
 then u may use use another device in your network for doing this step
 However in wifi p2p newtwork 
-you have to use the tv to test this device's firewall)
+you have to use the tv to test this device's firewall.
+If you know your firewall is configed properly 
+then u may skip the step.)
 
 If your firewall is configed properly
 then 
