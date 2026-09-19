@@ -27,10 +27,10 @@ break
 elif [ "$YN" = "n" ] || [ "$YN" = "no" ]
 then
 cat << QwQ
-This script require internet to download necessary file.
-u can run it offline after those file is downloaded 
-the script would now exit due to missing files.
 u may rerun this script for downloading those missing file.
+Also this script require internet to download necessary file.
+u can run it offline after those file is downloaded 
+the script would exit due to missing files.
 QwQ
 exit
 fi
