@@ -49,7 +49,7 @@ if [ -z "$IP" ] || [ "$IP" = "0.0.0.0" ] || [ "$IP" = "127.0.0.1" ]
 then
 echo "Invalid ip/local network domain.It shouldnt be empty/127.0.0.1/0.0.0.0"
 else
-echo '{"offlinemode":true,"offlinemodeip":"'"$IP"'"}'  > offline.json
+echo '{"offlinemode":true,"offlinemodeip":"'"$IP"':8080"}'  > offline.json
 break
 fi
 done
