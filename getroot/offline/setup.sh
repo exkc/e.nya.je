@@ -52,9 +52,9 @@ while true
 do
 echo 'What is the ip/local network domain of this device :'
 read -r IP
-if [ -z "$IP" ] || [ "$IP" = "0.0.0.0" ] || [ "$IP" = "127.0.0.1" ]
+if [ -z "$IP" ] || [ "$IP" = "0.0.0.0" ] || [ "$IP" = "127.0.0.1" ] || [ "$IP" = "localhost" ] 
 then
-echo "Invalid ip/local network domain.It shouldnt be empty/127.0.0.1/0.0.0.0"
+echo "Invalid ip/local network domain.It shouldnt be empty/127.0.0.1/0.0.0.0/localhost"
 else
 echo '{"offlinemode":true,"offlinemodeip":"'"$IP"':8080"}'  > offline.json
 break
