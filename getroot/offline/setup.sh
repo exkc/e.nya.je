@@ -68,7 +68,7 @@ Open the browser on the tv
 Then go to http://${IP}:8080/offlinemode.html in the browser
 You should see QwQ in browser.
 If you dont see QwQ in the browser
-Then check your firewall configuration (Make sure port 8080 is opened)
+Then check your firewall configuration (Make sure port 50000 is opened)
 Maybe those link as below can help on firewall configuration :
 https://github.com/termux-play-store/termux-apps/pull/116
 https://developer.android.com/privacy-and-security/local-network-permission
