@@ -56,7 +56,7 @@ if [ -z "$IP" ] || [ "$IP" = "0.0.0.0" ] || [ "$IP" = "127.0.0.1" ] || [ "$IP" =
 then
 echo "Invalid ip/local network domain.It shouldnt be empty/127.0.0.1/0.0.0.0/localhost"
 else
-echo '{"offlinemode":true,"offlinemodeip":"'"$IP"':8080"}'  > offline.json
+echo '{"offlinemode":true,"offlinemodeip":"'"$IP"':50000"}'  > offline.json
 break
 fi
 done
@@ -82,11 +82,11 @@ If you know your firewall is configed properly
 Then you may skip the step.)
 
 If your firewall is configed properly
-Then you can start to root your tv by fellow the instruction as http://${IP}:8080/
+Then you can start to root your tv by fellow the instruction as http://${IP}:50000/
 QwQ
 if [ "$SERVER" = "python3" ] 
 then
-python3 -m http.server 8080
+python3 -m http.server 50000
 fi
 }
 
