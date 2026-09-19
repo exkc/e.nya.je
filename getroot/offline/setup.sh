@@ -3,6 +3,7 @@ cd "$(realpath "$(dirname "$0")")/.." || exit
 
 TELNETD_URL="${TELNETD_URL:-https://github.com/webosbrew/webos-homebrew-channel/raw/refs/heads/main/services/bin/telnetd}"
 IPK_URL="${IPK_URL:-https://github.com/webosbrew/webos-homebrew-channel/releases/download/v0.7.3/org.webosbrew.hbchannel_0.7.3_all.ipk}"
+YN=""
 
 download() {
     
@@ -10,6 +11,30 @@ download() {
     then
     echo "$2 Found.Skiping Downloading..."
     return 0
+    fi
+
+    if [ -z "$YN" ]
+    then
+   while true
+   do
+   echo 'Would you like to download some necessary file now? (y/n/yes/no) :'
+   #get rid of unknown operand msg
+   YN="QwQ"
+   read -r YN
+if [ "$YN" = "y" ] || [ "$YN" = "yes" ]
+then
+break
+elif [ "$YN" = "n" ] || [ "$YN" = "no" ]
+then
+cat << QwQ
+This script require internet to download necessary file.
+u can run it offline after those file is downloaded 
+the script would now exit due to missing files.
+u may rerun this script for downloading those missing file.
+QwQ
+exit
+fi
+done
     fi
 
     echo "Downloading $2 from ${3}."
