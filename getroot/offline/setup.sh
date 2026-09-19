@@ -59,11 +59,12 @@ runserver() {
 cat << QwQ
 Open the browser on the tv or another device
 (if you get stuck in the t&s screen when u try to open the browser on the tv 
-then use another device.)
-then go to http://${IP}:8080/offlinemode.html in the browser
-If u see QwQ in the browser
-then 
-you can start to root your tv by fellow instruction as http://${IP}:8080/
+then use another device.
+This step is for testing this device's firewall 
+if u are using in wifi p2p newtwork 
+then u may not able to test with other device)
+Then go to http://${IP}:8080/offlinemode.html in the browser
+you should see QwQ in browser.
 if u dont see QwQ in the browser
 then 
 check your firewall settings (make sure port 8080 is opened)
@@ -71,6 +72,10 @@ maybe those link as below can help on firewall settings :
 https://github.com/termux-play-store/termux-apps/pull/116
 https://developer.android.com/privacy-and-security/local-network-permission
 https://ubuntuhandbook.org/index.php/2024/07/enable-disable-configure-firewall-ubuntu/
+
+If your firewall is configed properly
+then 
+you can start to root your tv by fellow instruction as http://${IP}:8080/
 QwQ
 if [ "$SERVER" = "python3" ] 
 then
