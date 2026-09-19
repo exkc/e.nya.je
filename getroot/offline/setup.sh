@@ -4,39 +4,21 @@ cd "$(realpath "$(dirname "$0")")/.." || exit
 TELNETD_URL="${TELNETD_URL:-https://github.com/webosbrew/webos-homebrew-channel/raw/refs/heads/main/services/bin/telnetd}"
 IPK_URL="${IPK_URL:-https://github.com/webosbrew/webos-homebrew-channel/releases/download/v0.7.3/org.webosbrew.hbchannel_0.7.3_all.ipk}"
 
-download_hbc_ipk() {
-	
-    if [ -e "./wtfbro/payload/hbc.ipk" ]
-    then
-    echo "Homebrew Channel IPK Found.Skiping Downloading..."
-    return 0
-    fi
-
-    echo "Downloading Homebrew Channel IPK from ${IPK_URL}."
-    if curl -L -o "./wtfbro/payload/hbc.ipk" -- "$IPK_URL"
-    then
-        echo "IPK downloaded successfully."
-        return 0
-    fi
-    echo "Failed to download Homebrew Channel IPK"
-    exit
-}
-
-download_telnetd() {
+download() {
     
-    if [ -e "./wtfbro/payload/telnetd" ]
+    if [ -e "./wtfbro/payload/$1" ]
     then
-    echo "telnetd Found.Skiping Downloading..."
+    echo "$2 Found.Skiping Downloading..."
     return 0
     fi
 
-    echo "Downloading telnetd from ${TELNETD_URL}."
-    if curl -L -o "./wtfbro/payload/telnetd" -- "$TELNETD_URL"
+    echo "Downloading $2 from ${3}."
+    if curl -L -o "./wtfbro/payload/$1" -- "$3"
     then
-        echo "telnetd downloaded successfully."
+        echo "$2 downloaded successfully."
         return 0
     fi
-    echo "Failed to download telnetd"
+    echo "Failed to download ${2}."
     exit
 }
 
@@ -107,6 +89,6 @@ fi
 
 checkdep
 askip
-download_hbc_ipk
-download_telnetd
+download "hbc.ipk" "Homebrew Channel IPK" "$IPK_URL"
+download "telnetd" "telnetd" "$TELNETD_URL"
 runserver
