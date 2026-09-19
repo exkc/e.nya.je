@@ -584,10 +584,10 @@ wtftargetUrl = new URL('http://'+ config.offlinemodeip+'/wtfbro?local' + (debugM
 	}
   setStatus('', 'Idle');
 	debugtoggle.checked=debugMode;
-	advtoggle.checked=debugMode;
+	advtoggle.checked=(debugMode||config.offlinemode);
 	advtogglede.open=advtoggle.checked;
 	
-	if (debugMode) {
+	if (debugMode||config.offlinemode) {
 		ssltoggle.checked=true;
 		advnotopened=false;
 	}
