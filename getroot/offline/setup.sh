@@ -29,7 +29,7 @@ then
 cat << QwQ
 You may rerun this script for downloading those missing file.
 Also this script require internet to download necessary file.
-However You can run it offline after those file is downloaded 
+However You can run this script offline after those file is downloaded 
 This script would exit due to missing files.
 QwQ
 exit
@@ -68,7 +68,7 @@ Open the browser on the tv
 Then go to http://${IP}:8080/offlinemode.html in the browser
 You should see QwQ in browser.
 If you dont see QwQ in the browser
-Then check your firewall configuration (make sure port 8080 is opened)
+Then check your firewall configuration (Make sure port 8080 is opened)
 Maybe those link as below can help on firewall configuration :
 https://github.com/termux-play-store/termux-apps/pull/116
 https://developer.android.com/privacy-and-security/local-network-permission
@@ -82,7 +82,7 @@ If you know your firewall is configed properly
 Then you may skip the step.)
 
 If your firewall is configed properly
-Then you can start to root your tv by fellow instruction as http://${IP}:8080/
+Then you can start to root your tv by fellow the instruction as http://${IP}:8080/
 QwQ
 if [ "$SERVER" = "python3" ] 
 then
