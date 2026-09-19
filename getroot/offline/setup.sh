@@ -88,7 +88,7 @@ fi
 }
 
 checkdep
-askip
 download "hbc.ipk" "Homebrew Channel IPK" "$IPK_URL"
 download "telnetd" "telnetd" "$TELNETD_URL"
+askip
 runserver
