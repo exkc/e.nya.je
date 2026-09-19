@@ -65,7 +65,7 @@ done
 runserver() {
 cat << QwQ
 Open the browser on the tv
-Then go to http://${IP}:8080/offlinemode.html in the browser
+Then go to http://${IP}:50000/offlinemode.html in the browser
 You should see QwQ in browser.
 If you dont see QwQ in the browser
 Then check your firewall configuration (Make sure port 50000 is opened)
