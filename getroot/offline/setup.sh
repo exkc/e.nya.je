@@ -27,9 +27,9 @@ break
 elif [ "$YN" = "n" ] || [ "$YN" = "no" ]
 then
 cat << QwQ
-u may rerun this script for downloading those missing file.
+You may rerun this script for downloading those missing file.
 Also this script require internet to download necessary file.
-u can run it offline after those file is downloaded 
+You can run it offline after those file is downloaded 
 This script would exit due to missing files.
 QwQ
 exit
@@ -66,26 +66,23 @@ runserver() {
 cat << QwQ
 Open the browser on the tv
 Then go to http://${IP}:8080/offlinemode.html in the browser
-you should see QwQ in browser.
-if u dont see QwQ in the browser
-then 
-check your firewall configuration (make sure port 8080 is opened)
-maybe those link as below can help on firewall configuration :
+You should see QwQ in browser.
+If you dont see QwQ in the browser
+Then check your firewall configuration (make sure port 8080 is opened)
+Maybe those link as below can help on firewall configuration :
 https://github.com/termux-play-store/termux-apps/pull/116
 https://developer.android.com/privacy-and-security/local-network-permission
 https://ubuntuhandbook.org/index.php/2024/07/enable-disable-configure-firewall-ubuntu/
 (The step in above is for testing this device's firewall 
-if you get stuck in the t&s screen 
-when u try to open the browser on the tv 
-then u may use use another device in your network for doing this step
-However in wifi p2p newtwork 
-you have to use the tv to test this device's firewall.
+If you get stuck in the t&s screen when u try to open the browser on the tv 
+Then you may use use another device in your network for doing this step
+However in wifi p2p network 
+You have to use the tv to test this device's firewall.
 If you know your firewall is configed properly 
-then u may skip the step.)
+Then you may skip the step.)
 
 If your firewall is configed properly
-then 
-you can start to root your tv by fellow instruction as http://${IP}:8080/
+Then you can start to root your tv by fellow instruction as http://${IP}:8080/
 QwQ
 if [ "$SERVER" = "python3" ] 
 then
