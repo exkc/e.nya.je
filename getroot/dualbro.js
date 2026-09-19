@@ -561,7 +561,7 @@ window.location=window.location.protocol+'//'+window.location.host+window.locati
 
   
 (async () => {
-	const res = await fetch("config.json");
+	const res = await fetch("offline.json");
 	const mine = await res.headers.get('Content-Type');
     if (!(mine === 'application/json')) {
  openModal({
