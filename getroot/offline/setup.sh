@@ -29,7 +29,7 @@ then
 cat << QwQ
 You may rerun this script for downloading those missing file.
 Also this script require internet to download necessary file.
-You can run it offline after those file is downloaded 
+However You can run it offline after those file is downloaded 
 This script would exit due to missing files.
 QwQ
 exit
