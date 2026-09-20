@@ -3,10 +3,15 @@
 **Step 1:** Connect your phone to your TV via P2P
 
 **Step 2:** Install this Open Source App
+
 Link: https://f-droid.org/packages/com.networkscanner.app/
+
 And install termux
+
 Link: https://f-droid.org/packages/com.termux/
+
 And install Cromite
+
 Link: https://github.com/uazo/cromite
 
 **Step 3:** Open Network Scanner to check your phone IP and your TV IP in P2P network
