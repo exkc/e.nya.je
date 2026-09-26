@@ -521,14 +521,37 @@ async function startConnect() {
   }
 
   setTimeout(() => {
+var	title,body;
     if (attempt !== state.attempt) return;
     if (state.waitingForPairing || bridge.registered || !state.pending) return;
     state.pending = false;
     setStatus('err', 'Connection failed');
     log('error', 'TV did not answer in time.Cant reach the TV :/');
+	if (tvip.value==="127.0.0.1"){
+title = 'Connection Failed';
+  body = `TV did not answer in time.Cant reach the TV :/
+
+If you opened this page in the tv's browser and it still dont work then try the fellowing :
+Open this page on your device that isnt the tv you are trying to root
+Then turn on Advanced Mode by ticking the checkbox
+Next tick the ssl 
+After that type your tv ip into TV IP
+Then Click Root the TV :3 to root the tv` ;
+
+	} else {
+ title = 'Connection Failed';
+  body = `TV did not answer in time.Cant reach the TV :/ 
+Maybe your browser has blocked local ip or self signed ssl cert or both.
+
+Maybe try clicking open cert for making your browser accept the self signed cert thus making it wont block the self signed cert. 
+Also see <a href=https://tv.slada.sk/guides/rooting-guide>the guide</a> for more help.
+` ;
+
+	}
+
     openModal({
-      title: 'Connection Failed',
-      body: 'TV did not answer in time.Cant reach the TV :/',
+      title,
+      body,
       primaryLabel: 'Try reconnect',
       dismissLabel: 'Close',
       hideHelp: true,
