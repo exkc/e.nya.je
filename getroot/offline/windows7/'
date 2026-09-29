@@ -1,0 +1,64 @@
+# Windows 7
+Press Win + R and a pop up would show up
+
+![here](a.png)
+
+Type control and press ok in the pop up
+
+This control panel would pop up
+
+![here](b.png)
+
+click here
+
+after it hsould look that :
+
+![here](c.png)
+
+and click Turn Windows Features On or Off
+
+
+Open https://github.com/webosbrew/webos-homebrew-channel in your browser
+
+![here](a.png)
+
+Click here
+
+![here](b.png)
+
+Click here
+
+Your browser will be starting to download a ipk file
+
+Open https://github.com/webosbrew/webos-homebrew-channel/blob/main/services/bin/telnetd in your browser
+
+![here](c.png)
+
+Click here
+
+Your browser will be starting to download a file call telnetd
+
+Open https://github.com/exkc/e.nya.je in your browser
+
+![here](d.png)
+
+Click here
+
+![here](e.png)
+
+You would see a pop up after clicking
+
+Click that in the pop up
+
+Your browser will be starting to download a zip file
+
+Check your download folder
+
+![here](f.png)
+
+you should 3 file : telnetd file , a ipk file , a zip file
+
+Rename the ipk file into hbc.ipk like so 
+
+![here](g.png)
+
