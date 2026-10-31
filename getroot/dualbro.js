@@ -297,10 +297,15 @@ async function warnIfDangbeiOverlayMissing() {
   const apps = Array.isArray(response.payload?.apps) ? response.payload.apps : [];
   let hasDangbeiOverlay = apps.some((app) => app && app.id === appid );
   if (!hasDangbeiOverlay) {
+	//lg got rid of voiceweb in their final patch of jsserver
+if  ( webosverion.value >= 5 && appname=="voiceweb" ) {
+    log('warn', appid+' was not found in listApps.Your tv firmware seem to be patched :/');
+} else {
     log('warn', appid+' was not found in listApps. If nothing happens on the TV it is likely not vulnerable.');
-    log('warn', 'You can try use another app if you want. (Try picking different app in entry point option after truning on advanced mode.)');
+log('warn', 'You can try use another app if you want. (Try picking different app in entry point option after truning on advanced mode.)');
 
-  } else {
+  }
+} else {
     log('success', 'Confirmed existence of '+appname+' app.');
   }
 }
@@ -475,6 +480,13 @@ await whattouse();
 await warnIfDangbeiOverlayMissing();
   log('launch', "Starting automatic "+appname+" launch to "+broname+" ("+targetUrl+")");
  
+if ( appname=="dangbei-overlay") {
+if  ( webosverion.value >= 5 ) {
+  log('warn', "if you see chinese ui pop up then try reseting the tv and re run the root process offline.");
+} else {
+log('warn', 'if you see chinese ui popup up then try to use another app. (Try picking different app in entry point option after truning on advanced mode.)');
+}
+}
 
 
   try {
