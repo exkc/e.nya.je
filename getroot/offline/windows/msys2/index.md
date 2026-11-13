@@ -1,9 +1,9 @@
 # msys
-Install msys2
+1. Install msys2
 
-Open msys2
+2. Open msys2
 
-Run those command as below :
+3. Run those command as below :
 
 (See [here](https://stackoverflow.com/questions/53988638/git-fatal-protocol-https-is-not-supported) if you have issue on copy and paste.)
 
@@ -19,21 +19,20 @@ chmod +x setup.sh
 
 ```
 
-Prass win + r 
+4. Prass win + r 
 
-Type cmd and click ok
+5. Type cmd and click ok
 
 ![here](a.png)
 
-Type ipconfig
+6. Type ipconfig
 
 ![here](b.png)
 
 as you can see the pc ip is 172.16.0.243
 
-Click on the msys2 window
+7. Click on the msys2 window and run
 
- and run
 
  ```
 
@@ -41,4 +40,4 @@ Click on the msys2 window
 
  ```
 
-Type the ip you got from `ifconfig` when it asked `What is the ip/local network domain of this device :`
+8. Type the ip you got from `ifconfig` when it asked `What is the ip/local network domain of this device :`

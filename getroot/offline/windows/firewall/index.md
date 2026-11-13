@@ -1,53 +1,50 @@
-Press Win + R and a pop up would show up
+1. Press Win + R and a pop up would show up
 
 ![here](a.png)
 
-Type control and press ok in the pop up
+2. Type control and press ok in the pop up
 
 This control panel would pop up
 
-Click System and Security
+3. Click System and Security
 
 ![here](b.png)
 
-Click Windows Defender Firewall or Windows Firewall
+4. Click Windows Defender Firewall or Windows Firewall
 
 (Windows Firewall got renamed to Windows Defender Firewall as some point)
 
 ![here](c.png)
 
-
-Click Advanced Setting
-
+5. Click Advanced Setting
 
 This pop up would open 
 
-Right-click inbound rule and click new rule
+6. Right-click inbound rule and click new rule
 
 ![here](d.png)
 
-
-This would pop up :
+7. This would pop up :
 
 ![here](e.png)
 
-Select port and click next
+8. Select port and click next
 
 ![here](f.png)
 
-Fill in the felid like so and click next
+9. Fill in the felid like so and click next
 
 ![here](g.png)
 
-Fill in the felid like so and click next
+10. Fill in the felid like so and click next
 
 ![here](h.png)
 
-Fill in the felid like so and click next
+11. Fill in the felid like so and click next
 
 ![here](i.png)
 
-Fill in the felid like so and click Finish
+12. Fill in the felid like so and click Finish
 
 ![here](j.png)
 
